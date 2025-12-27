@@ -15,9 +15,11 @@ class Pi2Framework:
         self.min_tension = 8.49e-6
         self.base_range = (-1e-3, 1e-3)
         self.equilibrium_threshold = 0.05  # base for gradients
-        self.entropy_rate = 1e-5
+        self.entropy_rate = 1e-5  # Synthesized addition for decay
         self.zero_replacement_mode = True
         self.decay_lambda_base = 1e-10
+        self.pi_center = np.pi  # For pi variation
+        self.effective_pi_edge = 2.0  # Pi at edges
 
         self.utils = Utils(self)
         self.cosmo = CosmoCore(self)
@@ -56,14 +58,72 @@ class CosmoCore:
     def __init__(self, fw: Pi2Framework):
         self.fw = fw
 
-    def propagate_vibration(self, pattern: np.ndarray, distance: float = 1.0, real_freq: float = 10.0, custom_lambda: Optional[float] = None) -> np.ndarray:
+    def propagate_vibration(self, pattern: np.ndarray, distance: float = 1.0, real_freq: float = 10.0, custom_lambda: Optional[float] = None, position_ratio=0.5) -> np.ndarray:
+        local_pi = self.simulate_pi_variation(position_ratio)
         decay_lambda = custom_lambda if custom_lambda is not None else self.fw.decay_lambda_base
-        decay_factor = np.exp(-self.fw.entropy_rate * distance / real_freq - decay_lambda * distance)
+        decay_factor = np.exp(-self.fw.entropy_rate * distance / real_freq - decay_lambda * distance) * (local_pi / np.pi)
         decayed = pattern * decay_factor
         return np.clip(decayed, *self.fw.base_range)
 
     def perception_fold(self, data: np.ndarray) -> np.ndarray:
         return self.fw.utils.holographic_linkage(data)
+
+    def simulate_pi_variation(self, position_ratio, t=0):
+        delta = self.fw.pi_center - self.fw.effective_pi_edge
+        local_pi = self.fw.pi_center - delta * (position_ratio ** 2)
+        return local_pi
+
+    def entropy_decay(self, value, t, observer_cost=False):
+        decay = value * np.exp(-self.fw.entropy_rate * t)
+        if observer_cost:
+            decay -= self.fw.min_tension * t
+        return np.clip(decay, *self.fw.base_range)
+
+    def hybrid_de_tension_vectorized(self, position_ratios: np.ndarray, t=0):
+        tensions = np.exp(-self.fw.decay_lambda_base * t) - self.fw.entropy_rate * t
+        tensions = self.simulate_tensegrity_balance(tensions)  # New: Tensegrity tie
+        return np.clip(tensions * position_ratios, *self.fw.base_range)
+
+    def simulate_octahedral_cross(self, base_distance=0.001, iterations=1, scale_factors=[1.618, 3.141, 2.718]):
+        positions = np.array([
+            [0.0, base_distance, 0.0],  # North
+            [0.0, -base_distance, 0.0], # South
+            [base_distance, 0.0, 0.0],   # East
+            [-base_distance, 0.0, 0.0],  # West
+            [0.0, 0.0, base_distance],   # Up
+            [0.0, 0.0, -base_distance]   # Down
+        ])
+        for i in range(iterations):
+            scale = scale_factors[i % len(scale_factors)]
+            positions *= scale
+            positions = self.fw.utils.compute_equilibrium(positions)
+        return positions
+
+    def simulate_superposition_potential(self, sphere_volumes: np.ndarray, overlap_factor=0.5, freq=65.0):
+        combined_volume = np.sum(sphere_volumes) * (1 - overlap_factor)
+        diff = np.abs(combined_volume - np.sum(sphere_volumes))
+        potential = diff * self.fw.min_tension * (freq ** 2)  # Scaled by freq**2
+        return self.fw.entropy_decay(potential, t=1.0)  # Apply decay for bio-realism
+
+    def simulate_tensegrity_balance(self, tensions):
+        if np.isscalar(tensions):
+            tensions = np.array([tensions])
+            is_scalar = True
+        else:
+            is_scalar = False
+        compressions = -tensions  # Simple opposition
+        balanced = (tensions + compressions) / 2  # Average for equilibrium
+        balanced[balanced < 0] = -balanced[balanced < 0]  # Resilient flip for negatives
+        return balanced if not is_scalar else balanced[0]
+
+    def compute_gravity_force(self, mass1: float, mass2: float, distance: float = 1.0, position_ratio: float = 0.5) -> np.ndarray:
+        local_pi = self.simulate_pi_variation(position_ratio)
+        G = 6.67430e-11 * (local_pi / np.pi)  # Modulate G by pi variation
+        base_force = G * mass1 * mass2 / (distance ** 2 + 1e-8)  # Avoid div-zero
+        vector_force = np.array([base_force])  # Scalar to vector for compatibility
+        balanced_force = self.simulate_tensegrity_balance(vector_force)  # Apply opposition/resilience
+        decayed_force = self.entropy_decay(balanced_force, t=distance / 10.0)  # Temper with distance-based decay
+        return self.fw.utils.compute_equilibrium(decayed_force)  # Snap
 
 class QuantumBioAccel:
     def __init__(self, fw: Pi2Framework):
@@ -136,6 +196,8 @@ class QuantumBioAccel:
             zoomed = vibe * (1.0 + self.zoom_level) * (self.real_freq ** 2)
             perturbed = zoomed + self.perturb_factor * np.random.randn(*zoomed.shape) * self.fw.min_tension * self.scatter_factor
 
+            perturbed = self.fw.cosmo.entropy_decay(perturbed, t=1.0)  # Synthesized: Add entropy decay
+
             if not from_child:
                 equilibrated = self.fw.utils.compute_equilibrium(perturbed)
                 self.direction_history.append(equilibrated.flatten())
@@ -157,6 +219,17 @@ class QuantumBioAccel:
             self.fw.equilibrium_threshold = old_thresh
 
             return final
+
+    class MultiObserver:
+        def __init__(self, fw, num_observers=3, brain_wave_bands_list=['alpha', 'beta', 'gamma']):
+            self.fw = fw
+            self.observers = [self.fw.bio.Observer(fw, brain_wave_band=band) for band in brain_wave_bands_list[:num_observers]]
+
+        def interact_vibrations(self, data: np.ndarray, iterations=5):
+            decoded = [obs.decode_vibration(data) for obs in self.observers]
+            consensus_mean = np.mean(decoded)
+            perturbed_tension = np.mean([self.fw.cosmo.entropy_decay(np.linalg.norm(d), i) for i, d in enumerate(decoded)])
+            return perturbed_tension, consensus_mean
 
     class MemoryBank:
         def __init__(self, fw: Pi2Framework):
