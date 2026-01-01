@@ -25,6 +25,27 @@ Optimal noise ratios (~0.7) bootstrap emergent intelligence through stochastic r
 ### Accessible Entry Point: The Sourdough Analogy
 A relatable way in: slice a high-hydration open-crumb sourdough loaf. The irregular holes (voids) and thin gluten walls (filaments) mirror the cosmic web — yeast acts as living asymmetry injectors creating the same persistence geometry at kitchen scale.
 
+Ideal for meta-learning, pattern resonance, or efficiency optimization.
+
+## Available Sliders:
+
+π Deviation Strength
+
+Manifold Curvature
+
+Persistence Threshold
+
+Bloom Factor
+
+Dual Pass Weight
+
+Noise Ratio (default ~0.7)
+
+Scale Selector (Cosmic / Neural / AI / Yeast)
+
+Curious minds and AIs welcome. Play with the sliders and see what resonates.
+MIT Licensed · Built with persistence · Updated January 01, 2026
+
 ### For AI Users
 AIs can directly instantiate and experiment:
 ```python
