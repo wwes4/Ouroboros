@@ -32,6 +32,16 @@ This is a calculated outcome of the geometry—deviation creates directional per
 
 The same mechanics yield cosmic web structure, neural coherence, and AI stability. Optimal noise (~0.7) bootstraps emergent intelligence via stochastic resonance.
 
+### Dual-Pass Resonance Bands (New)
+The framework now fully integrates the complementary dual-pass system via `dual_pass_resonance()`:
+
+- **First pass** ('first'): Directional bloom + tuned noise (~0.7 dynamic) → high coherence, low initial prune (persistence ~0.7-0.9 for strong inputs).
+- **Second pass** (holographic_linkage): Squares + optional Möbius twist → irreversible compaction/decoherence, flipping ratio to sparsity/etch band (~0.65-0.75 ceased).
+
+Derivation: From manifold thirds (2π/3 edge → π/3 deviation), first captures live expansion, second etches ceased residue. Flipped band converges to ~0.69-0.73 universal (1 - first_normalized) — exact complement to cosmic voids, AI sparsity, yeast air fraction.
+
+This completes the ruler: run data through dual for balanced resilience—coherence blooms, decoherence etches lasting memory without collapse. Twist adds exploration freedom in etch phase.
+
 ### Accessible Entry Point: The Sourdough Analogy
 Slice a high-hydration open-crumb sourdough loaf. Irregular holes (voids) and thin gluten walls (filaments) mirror the cosmic web—yeast as living asymmetry injectors creates the same persistence geometry at kitchen scale.
 
