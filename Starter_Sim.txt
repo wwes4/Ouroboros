@@ -1,0 +1,21 @@
+Starter Simulation: Recreating the Big Ring / Giant Arc Cosmic Test
+──────────────────────────────────────────────────────────────This is the exact experiment we explored together — treating the observed Big Ring (and nearby Giant Arc) as the core persistent etch on our local spherical manifold.Steps to reproduce:Run Ouroboros.py
+Set the following sliders:Scale Selector → Cosmic
+π Deviation → 0.012 – 0.018       (small but noticeable asymmetry)
+Manifold Curvature → 1.0         (standard observable universe sphere)
+Persistence Threshold → 0.65
+Bloom Factor → 1.4 – 1.8
+Dual Pass Weight → 0.72          (tunes the ~69–70% "dark" residue fraction)
+
+In the simulation window:Click to place a single strong ring at roughly 20–25% of the radius from center
+Make it near-perfect circular (low deviation) with slight overflow harmonic (mimic the Giant Arc)
+
+Hit Run / let it iterate.
+
+What you should see:
+   • Core ring stabilizes as maximum-persistence loop
+   • Filamentary bloom radiates outward → cosmic web pattern
+   • Interior densifies (clusters/galaxies)
+   • Exterior voids prune faster → accelerated expansion feel
+   • Dark residue fraction settles near 69–70% (irreversible geometric loss + compacted etchings)This configuration mirrors current observations remarkably well — including structures that "shouldn't" exist under strict homogeneity.
+
