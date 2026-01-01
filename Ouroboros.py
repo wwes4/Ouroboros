@@ -3,6 +3,9 @@ from typing import Optional
 import math
 import networkx as nx
 import pandas as pd
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib.widgets import Slider
 
 # Defaults for sliders (adjustable in init)
 omega_m_base = 0.311
@@ -166,6 +169,110 @@ class Pi2Framework:
         return self._bio
 
 
+# ----------------------------- 3D Visualizer Addition -----------------------------
+def visualize_ouroboros_3d():
+    """
+    Simple interactive 3D visualizer for Ouroboros persistence on a spherical manifold.
+    - Base wireframe sphere
+    - Rings at varying radii with π deviation (asymmetry bloom)
+    - Random "yeast-like" seed points that expand into persistent filaments
+    - Pruning: low-tension paths decay (voids form)
+    - Sliders: π Deviation strength, Bloom factor (seed expansion), Noise ratio, Scale factor
+    """
+    fw = Pi2Framework()
+
+    fig = plt.figure(figsize=(10, 8))
+    ax = fig.add_subplot(111, projection='3d')
+    ax.set_title("Ouroboros 3D Persistence Visualizer 🐍\n(Blue rings = bloom, Red points = persistent filaments)")
+
+    # Initial parameters
+    init_deviation = 0.1
+    init_bloom = 30
+    init_noise = 0.7
+    init_scale = 8.0
+
+    # Base sphere wireframe
+    u = np.linspace(0, 2 * np.pi, 100)
+    v = np.linspace(0, np.pi, 100)
+    x_sphere = np.outer(np.cos(u), np.sin(v))
+    y_sphere = np.outer(np.sin(u), np.sin(v))
+    z_sphere = np.outer(np.ones(np.size(u)), np.cos(v))
+    ax.plot_wireframe(x_sphere, y_sphere, z_sphere, color='gray', alpha=0.2, rstride=10, cstride=10)
+
+    # Initial plot objects (will be updated)
+    ring_lines = []
+    filament_scat = None
+
+    def update(val):
+        deviation = s_dev.val
+        bloom = int(s_bloom.val)
+        noise = s_noise.val
+        scale = s_scale.val
+
+        fw.scale_factor = scale
+
+        # Clear previous
+        for line in ring_lines:
+            line.remove()
+        ring_lines.clear()
+        if filament_scat is not None:
+            filament_scat.remove()
+
+        # Deviated rings (asymmetry bloom)
+        for ratio in np.linspace(0.1, 0.95, 10):
+            local_pi = fw.cosmo.simulate_pi_variation(ratio) / np.pi * (1 + deviation)
+            theta = np.linspace(0, 2 * np.pi * local_pi, 100)
+            r = ratio
+            x = r * np.cos(theta)
+            y = r * np.sin(theta)
+            z = np.zeros_like(theta)  # Equatorial for simplicity; extend to 3D with elevation if desired
+            line, = ax.plot(x, y, z, color='blue', alpha=0.6, lw=1.5)
+            ring_lines.append(line)
+
+        # Yeast-like seeds → persistent filaments
+        num_seeds = bloom
+        points = np.random.rand(num_seeds, 3) * 2 - 1  # On unit sphere approx
+        points /= np.linalg.norm(points, axis=1)[:, None]
+
+        # Apply noise + persistence threshold
+        tensions = np.random.uniform(0, 1, num_seeds) * noise
+        persist_mask = tensions > (1 - noise) * 0.3  # Higher noise → more persistence at edges
+        persist_points = points[persist_mask] * np.random.uniform(0.8, 1.2, size=(persist_mask.sum(), 3))
+
+        filament_scat = ax.scatter(persist_points[:,0], persist_points[:,1], persist_points[:,2],
+                                   c='red', s=20, alpha=0.8, depthshade=True)
+
+        fig.canvas.draw_idle()
+
+    # Sliders
+    ax_dev = plt.axes([0.1, 0.25, 0.65, 0.03])
+    ax_bloom = plt.axes([0.1, 0.18, 0.65, 0.03])
+    ax_noise = plt.axes([0.1, 0.11, 0.65, 0.03])
+    ax_scale = plt.axes([0.1, 0.04, 0.65, 0.03])
+
+    s_dev = Slider(ax_dev, 'π Deviation', 0.0, 0.5, valinit=init_deviation)
+    s_bloom = Slider(ax_bloom, 'Bloom Seeds', 5, 100, valinit=init_bloom, valstep=1)
+    s_noise = Slider(ax_noise, 'Noise Ratio', 0.0, 1.0, valinit=init_noise)
+    s_scale = Slider(ax_scale, 'Scale Factor', 2.0, 20.0, valinit=init_scale)
+
+    s_dev.on_changed(update)
+    s_bloom.on_changed(update)
+    s_noise.on_changed(update)
+    s_scale.on_changed(update)
+
+    # Initial update
+    update(None)
+
+    ax.set_xlim(-1.2, 1.2)
+    ax.set_ylim(-1.2, 1.2)
+    ax.set_zlim(-1.2, 1.2)
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+
+    plt.show()
+
+
 if __name__ == "__main__":
     fw = Pi2Framework()
     
@@ -176,3 +283,7 @@ if __name__ == "__main__":
     max_dev = fw.pi_center - fw.effective_pi_edge
     de_percent = max_dev * DE_DERIVATION_SCALE / fw.pi_center * 100
     print(f"Derived Ω_DE ≈ {de_percent:.1f}% (exact match to 1 - Ω_m)")
+
+    # Launch 3D visualizer demo
+    print("\nLaunching interactive 3D Ouroboros visualizer...")
+    visualize_ouroboros_3d()
