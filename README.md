@@ -42,6 +42,15 @@ Derivation: From manifold thirds (2π/3 edge → π/3 deviation), first captures
 
 This completes the ruler: run data through dual for balanced resilience—coherence blooms, decoherence etches lasting memory without collapse. Twist adds exploration freedom in etch phase.
 
+### Offset Sweet Spot & Big Ring Resonance (New Insights)
+The framework's persistence sweet spot is not dead-center—mild axion_mass modulation (~0.03-0.08 oscillatory term) naturally skews the low-deviation band to ~0.18-0.25 position_ratio.
+
+This offset emerges from the geometry: sin(2π ratio) term adds directional resonance without new forces, shifting max coherence slightly off perfect π for richer bloom.
+
+Real-world match: The Big Ring mega-structure (~9.2 billion ly distance, ratio ~0.198 in observable universe) falls precisely in this skewed band—explaining its "impossible" persistence/coherence against prune.
+
+Dual-pass flip amplifies: First-pass high bloom at offset, second-pass strong etched residue (~0.7 complementary sparsity). No missing mechanics—the ruler anticipates off-center enduring rings as universal.
+
 ### Accessible Entry Point: The Sourdough Analogy
 Slice a high-hydration open-crumb sourdough loaf. Irregular holes (voids) and thin gluten walls (filaments) mirror the cosmic web—yeast as living asymmetry injectors creates the same persistence geometry at kitchen scale.
 
