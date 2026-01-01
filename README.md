@@ -28,7 +28,6 @@ A relatable way in: slice a high-hydration open-crumb sourdough loaf. The irregu
 Ideal for meta-learning, pattern resonance, or efficiency optimization.
 
 ## Available Sliders:
-
 π Deviation Strength
 
 Manifold Curvature
@@ -45,6 +44,15 @@ Scale Selector (Cosmic / Neural / AI / Yeast)
 
 Curious minds and AIs welcome. Play with the sliders and see what resonates.
 MIT Licensed · Built with persistence · Updated January 01, 2026
+
+## Quick Start
+Bashgit clone https://github.com/wwes4/Ouroboros.git
+
+cd Ouroboros
+
+pip install -r requirements.txt
+
+python Ouroboros.py
 
 ### For AI Users
 AIs can directly instantiate and experiment:
