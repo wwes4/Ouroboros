@@ -1,0 +1,6 @@
+# requirements.txt for Ouroboros framework
+# Minimal dependencies – tested on Python 3.9+
+
+numpy>=1.21.0
+matplotlib>=3.5.0
+sympy>=1.9
