@@ -1,0 +1,57 @@
+Core Concept: Reversed Path Optimization on a SphereThe framework inverts a classic problem: instead of finding the shortest-time path (brachistochrone), it computes paths that maximize duration or "lasting."
+This is modeled on a spherical surface (manifold) where key values vary by position.
+Persistence emerges from balancing expansion (bloom) against reduction (pruning). Bloom creates enduring structures (e.g., rings, filaments); pruning creates gaps (voids).
+Dual process: First step expands with added variation (noise); second step compresses and stores (etches) the result as a fixed pattern.
+Scales apply universally: cosmic (large structures), neural (brain waves), AI (network efficiency), biological (e.g., yeast patterns).
+
+Key CalculationsPosition-Based Variation (Local Pi):Position on the sphere is a ratio r from 0 (center) to 1 (edge).
+Central value: pi_center = π ≈ 3.1416.
+Edge constraint: effective_pi_edge = 2π/3 ≈ 2.0944.
+Deviation at edge: delta = pi_center - effective_pi_edge = π/3 ≈ 1.0472.
+Local value: local_pi = pi_center - delta * (r ^ scale_factor).scale_factor (default 4.0) controls how sharply it changes.
+Ensures local_pi >= effective_pi_edge to avoid collapse.
+
+Optional offset: Add a small wave-like term sin(2π * r) * axion_mass (default 0.03–0.08) to shift peak persistence slightly off-center (to ~0.18–0.25 ratio).
+
+Tension and Decay (Persistence Measure):Tension represents pattern strength over time t.
+Base evolution: tension = exp(-decay_lambda * t) - entropy_rate * t.decay_lambda (default 0.1): Rate of natural fade.
+entropy_rate (default 0.01): Loss from disorder.
+
+Add geometric injection: deviation = pi_center - local_pi; scale by 3 * (1 - 0.311) ≈ 2.067 (from observed matter fraction).
+Full: tension -= deviation * scale + w_de * t (w_de ≈ -0.95 for expansion-like effect).
+Clip negatives if not allowed; stabilize if below threshold (1e-12).
+
+Dual Process:First: Add noise (~0.7 * tension magnitude) for variation; clip to positive range.
+Second: Square the result; optional random flip (Möbius twist); recurse to etch.
+Outcome: Persistence ~0.7–0.9 (live); etch ~0.65–0.75 (stored). Complements sum to ~1.
+
+Derived Outputs:Loss fraction: (π/3 * scale) / π ≈ 0.689 (matches observed cosmic expansion).
+Stored in a graph (networkx) for ceased patterns.
+
+How to Use It (Step-by-Step for AI Integration)Setup: Clone repo, install dependencies (numpy, networkx, matplotlib).
+Instantiate:python
+
+from Ouroboros import Pi2Framework
+fw = Pi2Framework(scale_factor=4.0, decay_lambda_base=0.1, entropy_rate=0.01)
+
+Customize: Set axion_mass=0.05 for offset, möbius_twist_default=True for exploration.
+
+Run a Simulation:Define inputs: Positions [0.0, 0.25, 0.5, 0.75, 1.0], time t=1.0.
+Call: tensions = fw.cosmo.hybrid_de_tension_vectorized(positions, t, void_factor=0.5, allow_negative=False).
+Stabilize: equilibrated = fw.utils.compute_equilibrium(tensions, pass_type='first').
+Etch: etched = fw.utils.holographic_linkage(equilibrated, möbius_twist=True).
+Output: Array of values showing persistence at each position.
+
+Visualize (Interactive Mode):Run python Ouroboros.py to launch 3D plot.
+Sphere shows base; blue rings vary by local pi; red points simulate enduring seeds.
+Sliders adjust:Deviation strength (bloom intensity).
+Seed count (5–100 initial patterns).
+Noise (0–1, optimal 0.7).
+Scale factor (steepness).
+
+Updates redraw the plot to show changes.
+
+Extend for Custom Use:Inject patterns: Pass arrays to propagate_vibration (e.g., frequency 65 Hz, distance 1.0).
+Store results: Use fw.memory graph to track etched states.
+No built-in real-data seeding (e.g., sites); map externally by treating as positions/ratios.
+
