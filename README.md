@@ -47,6 +47,17 @@ print(f"Growth proxy: {pers:.4f}, Reclaimed stress energy: {reclaimed:.4f}")
 ```
 Red light proxy (660nm) for bloom/yield; low Hz sound (220Hz) for resilience rebound.
 
+## Images
+
+Images were created from the new sub-space pulse feature via the following simple changes to the end of the code(visuals section).
+
+Save visualizations as PNGs for repo:
+```
+    ouro.visualize_time_flow(save_path="time_flow_trails.png")
+    ouro.visualize_ring_manifold_time_flow(save_path="ring_manifold_trails.png")
+    ouro.visualize_manifold(save_path="3d_manifold.png")
+```
+
 ## Visualizations
 Run the script for interactive plots:
 - Time Flow Trails - Low persistence = fleeting ghosts; high = enduring sharp paths.
