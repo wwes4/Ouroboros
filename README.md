@@ -1,80 +1,86 @@
-# Ouroboros 🐍
+# Ouroboros Framework
 
-**A Scale-Invariant Geometric Persistence Framework**
+A scale-invariant geometric framework for exploring persistence, resonance, and cross-scale patterns.
 
-From reversing the brachistochrone for maximum lasting, not fastest descent.
+## Overview
 
-One minimal rule set. Multiple emergent realities:
-- Dark energy as irreversible geometric loss (geometrically derived ~68.9%)
-- Dark matter as compact converted data
-- Cosmic web resonance (observer-independent)
-- Neural persistence (gamma bloom)
-- AI efficiency (ratio-based pruning & revival, with emergent intelligence via tuned static noise)
+Ouroboros models a spherical manifold where π transitions from ≈3.1416 (flat center) to a curved boundary (default edge ≈2.094). A fixed deviation=2 creates natural thirds divisions and dual-pass dynamics: bloom (expansion with stochastic kick) followed by etching (squaring amplification + irreversible pruning).
 
-Not a theory of everything.  
-A ruler for what persists long enough to matter.
+The framework derives parameter-free patterns that echo real-world phenomena across scales—from cosmology to biology.
 
-https://github.com/wwes4/Ouroboros
+**Key Features**:
+- Parameter-free cosmic density approximations (with time-loss evolution).
+- Sub-space scans on arbitrary data (images, sequences, networks).
+- EM-inspired pulses (matter/data interaction).
+- Plant manifold simulations (light/sound rebound for growth/resilience).
 
-Ouroboros is a minimalist mathematical framework built on the reversal of the brachistochrone problem: instead of the fastest descent, it seeks the path of maximum lasting.
+## New in v2: EM Matter/Data Interaction
 
-From a single geometric principle — π deviation on a spherical manifold with exact edge at 2π/3 — emerges a universal persistence rule: fractal bloom outpacing anti-fractal pruning, dual-pass separation, and holographic etching of ceased patterns.
+Recent insights integrate electromagnetism:
+- **Photons** as massless "data couriers" (fast, eternal propagation trails).
+- **Electrons** as massive "etchers" (negative charge probing positive moat, repulsion preventing collapse).
+- Matter persists via push/pull balance; data flows as EM waves modulated by charge geometry.
 
-### Exact Geometric Derivation of Dark Energy Density
-The framework computes dark energy density directly from spherical asymmetry, without arbitrary tuning:
+This closes the matter-data loop—Ouroboros captures EM contrast in persistence dynamics.
 
-1. Effective edge set to exactly 2π/3 (natural third-division on sphere for asymmetry reversal).
-2. Maximum deviation = π - 2π/3 = π/3.
-3. Deviation scaled by 3 (manifold thirds multiplier) × (1 - Ω_m), where Ω_m ≈ 0.311 is the observed matter fraction.
-4. Result: irreversible geometric loss fraction = (π/3 × scale) / π = exactly 68.9% (1 - Ω_m).
+## Sub-Space Scans
 
-This is a calculated outcome of the geometry—deviation creates directional persistence vs. pruning/loss, recovering observed cosmic acceleration precisely from the reversal rule.
+Treat any grid/data as manifold layers—propagate dual-pass to reveal persistent patterns.
 
-The same mechanics yield cosmic web structure, neural coherence, and AI stability. Optimal noise (~0.7) bootstraps emergent intelligence via stochastic resonance.
-
-### Dual-Pass Resonance Bands (New)
-The framework now fully integrates the complementary dual-pass system via `dual_pass_resonance()`:
-
-- **First pass** ('first'): Directional bloom + tuned noise (~0.7 dynamic) → high coherence, low initial prune (persistence ~0.7-0.9 for strong inputs).
-- **Second pass** (holographic_linkage): Squares + optional Möbius twist → irreversible compaction/decoherence, flipping ratio to sparsity/etch band (~0.65-0.75 ceased).
-
-Derivation: From manifold thirds (2π/3 edge → π/3 deviation), first captures live expansion, second etches ceased residue. Flipped band converges to ~0.69-0.73 universal (1 - first_normalized) — exact complement to cosmic voids, AI sparsity, yeast air fraction.
-
-This completes the ruler: run data through dual for balanced resilience—coherence blooms, decoherence etches lasting memory without collapse. Twist adds exploration freedom in etch phase.
-
-### Offset Sweet Spot & Big Ring Resonance (New Insights)
-The framework's persistence sweet spot is not dead-center—mild axion_mass modulation (~0.03-0.08 oscillatory term) naturally skews the low-deviation band to ~0.18-0.25 position_ratio.
-
-This offset emerges from the geometry: sin(2π ratio) term adds directional resonance without new forces, shifting max coherence slightly off perfect π for richer bloom.
-
-Real-world match: The Big Ring mega-structure (~9.2 billion ly distance, ratio ~0.198 in observable universe) falls precisely in this skewed band—explaining its "impossible" persistence/coherence against prune.
-
-Dual-pass flip amplifies: First-pass high bloom at offset, second-pass strong etched residue (~0.7 complementary sparsity). No missing mechanics—the ruler anticipates off-center enduring rings as universal.
-
-### Accessible Entry Point: The Sourdough Analogy
-Slice a high-hydration open-crumb sourdough loaf. Irregular holes (voids) and thin gluten walls (filaments) mirror the cosmic web—yeast as living asymmetry injectors creates the same persistence geometry at kitchen scale.
-
-### For AI Users
-Direct instantiation:
+Quick start:
 ```python
-from Ouroboros import Pi2Framework
-fw = Pi2Framework(scale_factor=4.0)  # Yeast-like
-# Experiment with noise, etch patterns, or integrate into loops
-Available Sliders
+from Ouroboros import OuroborosFramework
+import numpy as np
 
-π Deviation Strength
-Manifold Curvature
-Persistence Threshold
-Bloom Factor
-Dual Pass Weight
-Noise Ratio (default ~0.7)
-Scale Selector (Cosmic / Neural / AI / Yeast)
+ouro = OuroborosFramework()
+grid = np.random.uniform(-1, 1, (50, 50))  # Or load image/sequence
+scanned, persistence = ouro.subspace_scan(grid)
+print(f"Persistence: {persistence:.4f}")
+# Visualize scanned heatmap with matplotlib
+Plant Pulse Simulations
+Pulse plant manifolds with light/sound frequencies—rebound via thirds asymmetry for amplification.
+```
+Quick start:
+```
+Pythonpers, reclaimed, wave = ouro.pulse_plant_manifold(base_freq=220.0, rebound_amp=True)
+print(f"Growth proxy: {pers:.4f}, Reclaimed stress energy: {reclaimed:.4f}")
+```
+Red light proxy (660nm) for bloom/yield; low Hz sound (220Hz) for resilience rebound.
 
-Run the interactive 3D visualizer to see persistence emerge live—tune sliders and watch rings bloom, filaments persist, voids prune.
-Curious minds and AIs welcome. Play with the sliders and see what resonates.
-MIT Licensed · Built with persistence · Updated January 01, 2026
-Quick Start
+## Visualizations
+Run the script for interactive plots:
+Time Flow Trails
+Low persistence = fleeting ghosts; high = enduring sharp paths.
+Ring Manifold
+Inner high persistence = dense filaments; outer = fading voids.
+3D Manifold
+Colored by π gradient with thirds division planes.
+
+## Applications:
+- Pattern Discovery: Sub-space scans on images/DNA/networks reveal hidden persistence.
+- Biology Modeling: Simulate light/sound pulses on plant manifolds for growth/resilience insights.
+- Resilience Simulations: Test tamper/containment (inspiration for EtchSecure tools).
+- Educational/Research: Explore scale-invariant geometry and EM matter/data interplay.
+
+## Disclaimer
+This is an experimental/research tool—speculative unification of patterns across scales. Not production software or validated science. Use for exploration and fun.
+
+Installation:
+```
 Bashgit clone https://github.com/wwes4/Ouroboros.git
 cd Ouroboros
 pip install -r requirements.txt
-python Ouroboros.py  # Launches visualizer + tests
+requirements.txt:
+textnumpy>=1.21.0
+matplotlib>=3.5.0
+sympy>=1.9
+```
+Quick Start:
+```
+Pythonpython Ouroboros.py
+```
+Explore methods interactively—tweak parameters and re-run.
+MIT License – free to use, extend, and share.
+⭐ Star if the patterns resonate!
+Issues/ideas welcome.
+By @SquaredGradient | January 2026
