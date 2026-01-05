@@ -49,12 +49,9 @@ Red light proxy (660nm) for bloom/yield; low Hz sound (220Hz) for resilience reb
 
 ## Visualizations
 Run the script for interactive plots:
-Time Flow Trails
-Low persistence = fleeting ghosts; high = enduring sharp paths.
-Ring Manifold
-Inner high persistence = dense filaments; outer = fading voids.
-3D Manifold
-Colored by π gradient with thirds division planes.
+- Time Flow Trails - Low persistence = fleeting ghosts; high = enduring sharp paths.
+- Ring Manifold - Inner high persistence = dense filaments; outer = fading voids.
+- 3D Manifold - Colored by π gradient with thirds division planes.
 
 ## Applications:
 - Pattern Discovery: Sub-space scans on images/DNA/networks reveal hidden persistence.
