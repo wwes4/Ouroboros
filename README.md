@@ -23,6 +23,32 @@ Recent insights integrate electromagnetism:
 
 This closes the matter-data loop—Ouroboros captures EM contrast in persistence dynamics.
 
+## Number Theory Probes
+Probe for perfect number patterns—even as pressure points (high persistence symmetry), guiding odds to auto-prune (asymmetry repulsion via pi differential).
+
+Quick start:
+```
+Pythoneven, odd = ouro.probe_perfect_numbers(exponent_range=10, odd_check=True)
+print("Even perfect pressure points:", even)
+print("Odd prune candidates:", odd)
+```
+Ouroboros Demo:
+```
+Base densities: (0.3436592257647936, 0.6563407742352064)
+Observed (time-loss): (0.29623425260925207, 0.7037657473907479)
+
+Sub-space scan persistence: 0.6656
+
+EM pulse (red bloom): Persistence 0.8800, Reclaimed 8.6000
+
+Plant pulse (220Hz rebound): Persistence 0.7600, Reclaimed 35.2700
+
+Even perfect pressure points: [6, 28, 496, 8128]
+Odd prune candidates: ['Odd candidate pruned at p=2', 'Odd candidate pruned at p=3',
+'Odd candidate pruned at p=4', 'Odd candidate pruned at p=5', 'Odd candidate pruned at p=6',
+'Odd candidate pruned at p=7', 'Odd candidate pruned at p=8', 'Odd candidate pruned at p=9',
+'Odd candidate pruned at p=10']
+```
 ## Sub-Space Scans
 
 Treat any grid/data as manifold layers—propagate dual-pass to reveal persistent patterns.
