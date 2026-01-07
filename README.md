@@ -16,6 +16,12 @@ The framework derives parameter-free patterns that echo real-world phenomena acr
 
 ## New in v2: EM Matter/Data Interaction
 
+New Method: 
+Adds the separation/transmission insight (data bridge across voids, high vibration proxy).
+```
+simulate_manifold_slice_pull
+visualize_slice_pull—directly
+```
 Recent insights integrate electromagnetism:
 - **Photons** as massless "data couriers" (fast, eternal propagation trails).
 - **Electrons** as massive "etchers" (negative charge probing positive moat, repulsion preventing collapse).
