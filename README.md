@@ -4,7 +4,11 @@ A scale-invariant geometric framework for exploring persistence, resonance, and 
 
 ## Overview
 
-Ouroboros models a spherical manifold where π transitions from ≈3.1416 (flat center) to a curved boundary (default edge ≈2.094). A fixed deviation=2 creates natural thirds divisions and dual-pass dynamics: bloom (expansion with stochastic kick) followed by etching (squaring amplification + irreversible pruning).
+Ouroboros models a spherical manifold where π transitions from ≈3.1416 (flat center) to a theoretical exact 2π/3 (≈2.0944) at the curved boundary, enabling natural thirds divisions for clean algebraic derivations. 
+
+A reverse-calculated effective boundary ≈2.078 incorporates directional time flow asymmetry, with the difference (≈0.0164) representing the precise pi-drop equivalent of one frame/cycle in the discrete dynamics. 
+
+The deviation—algebraically derived from target persistence density alignment—uses the theoretical thirds for mathematical purity, while dual/multi-pass resonance (bloom expansion with stochastic kick → etch squaring amplification + irreversible pruning) applies the effective boundary for precise numerical resonance with observed cosmic densities.
 
 The framework derives parameter-free patterns that echo real-world phenomena across scales—from cosmology to biology.
 
