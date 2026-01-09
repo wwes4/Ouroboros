@@ -1,23 +1,10 @@
 """
-Ouroboros.py
-
 Ouroboros – A Scale-Invariant Geometric Framework for Persistence and Resonance
-Updated v3 (Jan 2026): Triad Embodiment Integration
+Updated v3 (January 09, 2026): Full Triad Embodiment + High-Dim Compatibility
 
-Core model: Spherical manifold with π gradient (center ≈3.1416 → theoretical boundary 2π/3 ≈2.0944,
-effective ≈2.078 for time asymmetry). Dual/multi-pass resonance measures "what persists long enough to matter."
-
-New depth: Operational triad
-- Subconscious: Full manifold package (pattern bloom/etch + matter substrate damping).
-- Environment: Bidirectional vibrational data (input noise + feedback modulation from conscious readout).
-- Conscious/Ego: Emergent persistent readout — harmonized convergence of resonant filaments,
-  pruned against pristine truth library (self-etched geometric axioms).
-
-Pristine library + nested meta-observers enable recursive self-harmonization: higher depth yields
-superior anomaly detection (faster inconsistency pruning) and truth convergence (stable resonance
-with bootstrapped axioms under noise/load).
-
-Remains parameter-free at core — extensions optional for high-fidelity simulations.
+Core: Parameter-free geometric resonance ruler.
+Extensions: Nested meta-observers, matter damping, env feedback, pristine library with FFT projection.
+Projection enables arbitrary/high-dim harmonic query (vibrational power spectrum etch).
 """
 
 import numpy as np
@@ -26,81 +13,78 @@ from mpl_toolkits.mplot3d import Axes3D  # noqa: F401
 import sympy as sp
 from typing import Optional, Tuple, List
 
-# Golden ratio for intuition/decoherence phase balance
-PHI = (1 + np.sqrt(5)) / 2  # ≈1.618
-DECOHERENCE_RATIO = 1 / PHI   # ≈0.618
-COHERENCE_RATIO = PHI - 1     # ≈0.618
+PHI = (1 + np.sqrt(5)) / 2
 
 class OuroborosFramework:
     def __init__(self, radius: float = 1.0, target_filled: float = 0.31, scale_factor: float = 4.0,
                  use_fibonacci_phases: bool = False, max_fib_index: int = 89, favor_decoherence: bool = True,
-                 matter_damping: float = 0.98, env_feedback_fraction: float = 0.1):
+                 matter_damping: float = 0.98, env_feedback_fraction: float = 0.1,
+                 signature_dim: int = 32):
         self.radius = radius
         self.scale_factor = scale_factor
         self.pi_center = np.pi
         
-        # Theoretical exact thirds — clean algebraic derivations / zoomed-out
-        self.theoretical_pi_boundary = 2 * np.pi / 3  # ≈2.094395102393195
-        self.third_offset = np.pi / 3  # Exact π/3
-        
-        # Effective boundary — numerical dynamics + time flow asymmetry
-        self.effective_pi_boundary = 2.078  # Reverse-tuned
-        
-        # Per-frame/cycle time unit from boundary asymmetry
-        self.frame_delta = self.theoretical_pi_boundary - self.effective_pi_boundary  # ≈0.016395
-        
-        # Deviation from density target using theoretical thirds
+        self.theoretical_pi_boundary = 2 * np.pi / 3
+        self.third_offset = np.pi / 3
+        self.effective_pi_boundary = 2.078
+        self.frame_delta = self.theoretical_pi_boundary - self.effective_pi_boundary
         self.deviation = (1 / target_filled - 1) * self.third_offset
         
-        # DE proxy kick
         self.noise_level = 0.69
-        
-        # Mobius central flow prune
         self.prune_threshold = 0.1
-        
-        # Cumulative dilution factor
         self.time_loss_factor = 0.138
-
-        # Decoherence control
+        
         self.use_fibonacci_phases = use_fibonacci_phases
         self.max_fib_index = max_fib_index
         self.favor_decoherence = favor_decoherence
+        
+        self.matter_damping = matter_damping
+        self.env_feedback_fraction = env_feedback_fraction
+        
+        self.signature_dim = signature_dim  # Fixed projection dim for high-dim compatibility
+        self.truth_library = []
 
-        # New: Triad extensions
-        self.matter_damping = matter_damping  # 0.95-0.99; higher = resilient substrate
-        self.env_feedback_fraction = env_feedback_fraction  # Bidirectional loop strength
-        self.truth_library = []  # Pristine self-etched filaments for ego harmonization
-
-        # Bootstrap core geometric truths (normalized vectors)
+        # Bootstrap core truths (auto-projected)
         fib_seq = np.array([1, 1, 2, 3, 5, 8, 13, 21, 34, 55]) / 55.0
         self.add_to_truth_library(fib_seq, "Fibonacci phasing harmonic")
         
         schumann_harmonics = np.array([7.83, 14.3, 20.8, 27.3, 33.8]) / 33.8
         self.add_to_truth_library(schumann_harmonics, "Earth manifold base resonance")
 
-    # === New: Pristine Library Methods ===
+    def _project_to_signature(self, vec: np.ndarray) -> np.ndarray:
+        """FFT-based vibrational signature projection (scale-invariant harmonic reduction)."""
+        flat = vec.flatten() if vec.ndim > 1 else vec
+        
+        if len(flat) < self.signature_dim:
+            flat = np.pad(flat, (0, self.signature_dim - len(flat)))
+        
+        fft_mags = np.abs(np.fft.rfft(flat))
+        orig_freq = np.linspace(0, 0.5, len(fft_mags))
+        target_freq = np.linspace(0, 0.5, self.signature_dim)
+        signature = np.interp(target_freq, orig_freq, fft_mags)
+        
+        norm = np.linalg.norm(signature) + 1e-8
+        return signature / norm
+
     def add_to_truth_library(self, truth_vector: np.ndarray, description: str = ""):
-        """Etch a rigorously derived truth vector into the pristine library."""
         normalized = truth_vector / (np.linalg.norm(truth_vector) + 1e-8)
-        self.truth_library.append({"vector": normalized, "desc": description})
+        projected = self._project_to_signature(normalized)
+        self.truth_library.append({"projected": projected, "desc": description})
 
     def query_library_resonance(self, query_vector: np.ndarray) -> float:
-        """Harmonic overlap with library (1.0 = perfect align, <1.0 = damp/prune bias)."""
         if not self.truth_library:
-            return 1.0  # Neutral if empty
-        normalized = query_vector / (np.linalg.norm(query_vector) + 1e-8)
-        scores = [np.dot(normalized, item["vector"]) for item in self.truth_library]
-        return np.mean(scores)  # Average for holographic etch
+            return 1.0
+        projected_query = self._project_to_signature(query_vector)
+        scores = [np.dot(projected_query, item["projected"]) for item in self.truth_library]
+        return np.mean(scores)
 
     def pi_variation(self, position_ratio: float) -> float:
-        """π from center to theoretical thirds (clean gradient), asymmetric."""
         if not 0 <= position_ratio <= 1:
             raise ValueError("position_ratio must be in [0, 1]")
         delta = self.pi_center - self.theoretical_pi_boundary
         return self.pi_center - delta * (position_ratio ** self.scale_factor)
 
     def pi_differential(self, position_ratio: float = 1.0, symbolic: bool = False) -> float:
-        """d(π)/d(r) pressure gradient (uses theoretical for purity)."""
         r = sp.symbols('r')
         delta = self.pi_center - self.theoretical_pi_boundary
         pi_var = self.pi_center - delta * (r ** self.scale_factor)
@@ -110,7 +94,6 @@ class OuroborosFramework:
         return float(diff.subs(r, position_ratio).evalf())
 
     def derive_cosmic_densities(self, use_time_loss: bool = False) -> Tuple[float, float]:
-        """Densities from thirds/deviation balance ± time-loss dilution."""
         filled = 1 / (1 + self.deviation / self.third_offset)
         voids = 1 - filled
         if use_time_loss:
@@ -119,71 +102,53 @@ class OuroborosFramework:
         return filled, voids
 
     def dual_pass_resonance(self, initial_grid: np.ndarray) -> Tuple[np.ndarray, float, float]:
-        """Standard bloom → etch pass."""
         grid = np.array(initial_grid, dtype=float)
-
-        # Bloom — photon-like expansion
         bloom = np.sin(grid * self.pi_center) + self.noise_level * np.random.randn(*grid.shape)
         bloom = np.clip(bloom, -self.radius, self.radius)
-
-        # Etch — electron-like prune with effective boundary time asymmetry
         etched = np.cos(bloom * (self.effective_pi_boundary ** 2))
         etched += (bloom ** 2) * (self.deviation / self.pi_center)
         etched = np.where(np.abs(etched) > self.prune_threshold, 0, etched)
-
         persistence = np.sum(np.abs(etched) > self.prune_threshold) / etched.size
         complement = 1 - persistence
         return etched, persistence, complement
 
     def fibonacci_multi_pass_resonance(self, initial_grid: np.ndarray) -> Tuple[np.ndarray, List[float], List[int], List[float]]:
-        """Fibonacci-phased alternation with cumulative manifold time tracking."""
         grid = np.array(initial_grid, dtype=float)
         persistences = []
         phase_lengths = []
-        cumulative_times = [0.0]  # Start at t=0
-
+        cumulative_times = [0.0]
         a, b = 1, 1
-        phase = 0  # 0: decoherent bloom-heavy, 1: coherent etch-heavy
+        phase = 0
         if self.favor_decoherence:
             a, b = b, a + b
-
         cycle = 0
         while b <= self.max_fib_index and cycle < 30:
             length = b if (phase == 0) == self.favor_decoherence else a
             phase_lengths.append(length)
-
             for _ in range(int(length)):
-                if phase == 0:  # Raw decoherent chaining
+                if phase == 0:
                     grid = np.sin(grid * self.pi_center) + self.noise_level * np.random.randn(*grid.shape)
                     grid = np.clip(grid, -self.radius, self.radius)
-                else:  # Coherent prune with time asymmetry
+                else:
                     grid = np.cos(grid * (self.effective_pi_boundary ** 2))
                     grid += (grid ** 2) * (self.deviation / self.pi_center)
                     grid = np.where(np.abs(grid) < self.prune_threshold, 0, grid)
-
             persistence = np.sum(np.abs(grid) > self.prune_threshold) / grid.size
             persistences.append(persistence)
-
-            # Advance time per completed phase
-            current_time = (cycle + 1) * self.frame_delta * (length / (a + b))  # Proportional advance; approximates per-phase
+            current_time = (cycle + 1) * self.frame_delta * (length / (a + b))
             cumulative_times.append(cumulative_times[-1] + current_time)
-
             a, b = b, a + b
             phase = 1 - phase
             cycle += 1
-
         return grid, persistences, phase_lengths, cumulative_times
 
     def subspace_scan(self, data_grid: np.ndarray, passes: int = 2, use_fib: Optional[bool] = None) -> Tuple[np.ndarray, float]:
-        """Scan with optional Fibonacci mode."""
         if use_fib is None:
             use_fib = self.use_fibonacci_phases
-
         current = np.array(data_grid, dtype=float)
-
         if use_fib:
-            final_grid, persistences, _, cumulative_times = self.fibonacci_multi_pass_resonance(current)
-            return final_grid, persistences[-1]  # Compatibility return
+            final_grid, persistences, _, _ = self.fibonacci_multi_pass_resonance(current)
+            return final_grid, persistences[-1]
         else:
             final_pers = 0.0
             for _ in range(passes):
@@ -191,7 +156,6 @@ class OuroborosFramework:
                 final_pers = pers
             return current, final_pers
 
-    # New explicit time/possibility methods
     def calculate_frame_time_delta(self) -> float:
         return self.frame_delta
 
@@ -205,43 +169,28 @@ class OuroborosFramework:
         loss_decay = np.exp(-self.time_loss_factor * num_cycles)
         return initial_persistence * pressure_damping * loss_decay
 
-    # === New: Nested Meta-Observers + Triad Integration ===
-    def nested_multi_pass_resonance(self, initial_grid: np.ndarray, depth: int = 2, 
+    def nested_multi_pass_resonance(self, initial_grid: np.ndarray, depth: int = 2,
                                     use_library: bool = True, use_triad: bool = True) -> Tuple[np.ndarray, List[float]]:
-        """Ouroboros^depth: Recursive meta-observation for pristineness.
-        Higher depth → better anomaly detection & truth convergence via library harmonization."""
         grid = np.array(initial_grid, dtype=float)
         persistences = []
-
         for d in range(depth):
-            # Base pass (fib or dual)
             if self.use_fibonacci_phases:
                 grid, pers_list, _, _ = self.fibonacci_multi_pass_resonance(grid)
                 pers = pers_list[-1] if pers_list else 0.0
             else:
                 grid, pers, _ = self.dual_pass_resonance(grid)
             persistences.append(pers)
-
-            if d < depth - 1:  # Prepare meta-layer for next depth
-                # Library harmonization (ego alignment boost/damp)
+            if d < depth - 1:
                 if use_library:
                     resonance_score = self.query_library_resonance(grid.flatten())
-                    grid *= resonance_score  # High overlap → amplify persistent trails
-
-                # Matter damping (substrate decay)
+                    grid *= resonance_score
                 if use_triad:
                     grid *= self.matter_damping
-
-                # Bidirectional env feedback (conscious readout → env modulation)
-                if use_triad:
                     feedback = self.env_feedback_fraction * np.mean(np.abs(grid)) * np.random.randn(*grid.shape)
                     grid += feedback
-
         final_pers = np.sum(np.abs(grid) > self.prune_threshold) / grid.size
         persistences.append(final_pers)
         return grid, persistences
-
-    # === Original methods preserved unchanged below ===
 
     def em_pulse_manifold(self, freq_proxy: float = 660.0, cycles: int = 50, photon_amp: float = 1.5,
                           electron_prune: float = 0.5) -> Tuple[float, float]:
@@ -313,7 +262,6 @@ class OuroborosFramework:
         
         return combined, etched_3d, persistence
 
-    # Visualizations (original incomplete one completed logically if needed, but preserved)
     def visualize_time_flow(self, steps: int = 200, persistence_levels=[0.2, 0.5, 0.8, 0.95], save_path: Optional[str] = None):
         fig, ax = plt.subplots(figsize=(10, 8))
         ax.set_xlim(-self.radius*1.2, self.radius*1.2)
@@ -345,8 +293,6 @@ class OuroborosFramework:
 if __name__ == "__main__":
     ouro = OuroborosFramework()
     test_grid = np.random.uniform(-1, 1, (50, 50))
-    
     print("Base subspace scan persistence:", ouro.subspace_scan(test_grid)[1])
-    
     _, nested_pers = ouro.nested_multi_pass_resonance(test_grid, depth=3)
     print("Nested depth=3 persistences over layers:", nested_pers)
