@@ -1,5 +1,5 @@
 """
-Ouroboros.py — Core Geometric Persistence Framework (Slim v8.3)
+Ouroboros.py — Core Geometric Persistence Framework (Slim v8.6)
 January 13, 2026
 
 Pure mathematical foundation:
@@ -12,18 +12,19 @@ Pure mathematical foundation:
 - Downsample safety + export
 - Built-in OuroborosClock (always active) for real-world baseline time + discrete manifold ticks
 - Cosmic expansion factor (Hubble tension mean) + dynamic CMB cooling (emergent from time/expansion)
+- Geometric amplitude stabilization (tanh curvature folding — no hard cap)
 
 Clock is always on:
 - Instantiation captures real-world baseline time (time.time())
-- Discrete ticks advance manifold time with decay
+- Discrete ticks advance manifold time with decay, expansion bias, and CMB cooling
 - Real-world age always available via clock.get_age()
-- Temporal decay applied on ticked operations (default no decay until first tick)
-- Expansion bias + dynamic CMB floor only activate after ticks
+- Temporal decay + expansion + CMB updates on tick (pure time flow evolves the manifold)
 """
 
 import os
 import time
 import numpy as np
+import matplotlib.pyplot as plt
 from typing import List, Dict, Optional
 import json
 
@@ -56,13 +57,12 @@ class OuroborosClock:
 
 
 class OuroborosFramework:
-    def __init__(self, target_filled: float = 0.31, use_fibonacci_phases: bool = False,
-                 matter_damping: float = 0.98, env_feedback_fraction: float = 0.1,
+    def __init__(self, use_fibonacci_phases: bool = True,
+                 matter_damping: float = 0.98, env_feedback_fraction: float = 0.08,
                  signature_dim: int = 32, max_grid_size: int = 1024):
-        self.target_filled = target_filled
         self.use_fibonacci_phases = use_fibonacci_phases
         self.matter_damping = matter_damping
-        self.env_feedback_fraction = env_feedback_fraction
+        self.env_feedback_fraction = env_feedback_fraction  # Reduced for stronger separation
         self.signature_dim = signature_dim
         self.max_grid_size = max_grid_size
 
@@ -72,10 +72,11 @@ class OuroborosFramework:
         self.third_offset = np.pi / 3
         self.effective_pi_boundary = 2.078
         self.frame_delta = self.theoretical_pi_boundary - self.effective_pi_boundary
-        self.deviation = (1 / target_filled - 1) * self.third_offset
 
-        self.noise_level = 0.69
-        self.prune_threshold = 0.1
+        # Matter density proxy — sustains ~31% against expansion (Ω_m from cosmology)
+        self.target_filled = 0.31
+        self.deviation = (1 / self.target_filled - 1) * self.third_offset
+
         self.time_loss_factor = 0.138
 
         self.pass_damping = {"physical": 0.995, "wave": 0.95, "data": 0.75}
@@ -87,14 +88,17 @@ class OuroborosFramework:
         self.clock = OuroborosClock(time_loss_factor=self.time_loss_factor)
 
         # Cosmic expansion & dynamic CMB
-        # Hubble tension mean (67.4 - 73 km/s/Mpc) geometric mean, scaled to manifold units
-        self.hubble_tension_low = 67.4 / 30857.0   # Rough natural units normalization
+        self.hubble_tension_low = 67.4 / 30857.0
         self.hubble_tension_high = 73.0 / 30857.0
         self.expansion_factor = (self.hubble_tension_low + self.hubble_tension_high) / 2  # ~0.000231
+
+        # Prune threshold derived from cosmic expansion push — sub-threshold trails decay
+        self.prune_threshold = self.expansion_factor * 200  # ~0.0462
 
         # Initial recombination-era CMB proxy (hot start ~3000K normalized to manifold)
         self.initial_cmb = 3000.0 / self.pi_center
         self.current_cmb = self.initial_cmb  # Cools dynamically with expansion/time
+        self.scale_factor = 1.0  # Starts at 1, grows with ticks
 
         # Bootstrap pure mathematical truths
         fib_seq = np.array([1, 1, 2, 3, 5, 8, 13, 21, 34, 55]) / 55.0
@@ -142,19 +146,33 @@ class OuroborosFramework:
         norm = np.linalg.norm(signature) + 1e-8
         return signature / norm
 
+    def _resample_feedback(self, proj: np.ndarray, target_len: int) -> np.ndarray:
+        """Resample projected truth to match current grid size."""
+        if len(proj) == target_len:
+            return proj
+        orig = np.linspace(0, 1, len(proj))
+        target = np.linspace(0, 1, target_len)
+        return np.interp(target, orig, proj)
+
     def _apply_library_feedback(self, grid: np.ndarray) -> np.ndarray:
         if not self.truth_library:
             return grid
         feedback = np.zeros_like(grid)
+        target_len = grid.size
         for truth in self.truth_library:
             proj = np.array(truth["projected"])
-            if len(proj) == len(grid):
-                feedback += proj * self.env_feedback_fraction
+            resampled = self._resample_feedback(proj, target_len)
+            feedback += resampled.reshape(grid.shape) * self.env_feedback_fraction
         return grid + feedback
 
     def _bloom_etch_prune(self, grid: np.ndarray, pass_type: str) -> np.ndarray:
         damping = self.pass_damping[pass_type]
         noise = self.pass_noise[pass_type]
+
+        # Optional Fibonacci phasing modulation
+        if self.use_fibonacci_phases:
+            phase = np.sin(np.linspace(0, 2*np.pi*PHI, grid.size)).reshape(grid.shape)
+            noise *= (0.5 + 0.5 * phase)  # Modulate noise with golden spiral
 
         # Bloom: expansion/exploration
         expanded = np.sin(grid * self.pi_center) + noise * np.random.randn(*grid.shape)
@@ -165,21 +183,16 @@ class OuroborosFramework:
         # Combine with damping
         combined = damping * etched + (1 - damping) * expanded
 
-        # Library feedback
+        # Library feedback (resampled)
         combined = self._apply_library_feedback(combined)
 
         # Temporal decay — always available (default 1.0 until ticked)
         combined *= self.clock.last_decay
 
-        # Cosmic expansion bias — gentle outward push after time flows
-        if self.clock.current_tick > 0:
-            combined += self.expansion_factor * np.sign(combined)  # Stretch trails
+        # Geometric amplitude stabilization — fold huge values via manifold curvature
+        combined = np.tanh(combined / self.pi_center) * self.pi_center  # Soft saturation to π-center range
 
-            # Dynamic CMB cooling with expansion/time
-            scale_factor = 1.0 + (self.expansion_factor * self.clock.current_tick)
-            self.current_cmb = self.initial_cmb / scale_factor  # T ∝ 1/a
-
-        # Dynamic CMB background floor — faint eternal glow (prevents total cold prune)
+        # Dynamic CMB background floor — faint eternal glow
         combined += self.current_cmb * 0.01
 
         # Prune weak trails
@@ -284,9 +297,12 @@ class DSLChain:
         return self
 
     def tick(self, count: int = 1):
-        """Advance manifold time — applies cumulative decay and expansion."""
+        """Advance manifold time — applies cumulative decay, expansion, and CMB cooling."""
         for _ in range(count):
             self.clock.tick()
+            # Cosmic evolution on pure tick
+            self.framework.scale_factor = 1.0 + (self.framework.expansion_factor * self.clock.current_tick)
+            self.framework.current_cmb = self.framework.initial_cmb / self.framework.scale_factor
         return self
 
     def export_json(self, filename: str = "chain_result.json"):
@@ -338,8 +354,8 @@ class DSLChain:
 
 
 if __name__ == "__main__":
-    ouro = OuroborosFramework()
-    print(f"\nOuroboros v8.3 slim core initialized — {len(ouro.truth_library)} truths active")
+    ouro = OuroborosFramework(use_fibonacci_phases=True)
+    print(f"\nOuroboros v8.6 slim core initialized — {len(ouro.truth_library)} truths active")
     print(f"Baseline real-world time captured: {time.ctime(ouro.clock.start_time)}")
     print(f"Initial CMB proxy (hot): {ouro.current_cmb:.4f} | Expansion factor: {ouro.expansion_factor:.8f}")
 
@@ -354,3 +370,48 @@ if __name__ == "__main__":
     print(f"After 50 ticks — persistence: {result_time['history'][-1]['details']['consensus_pers']:.4f}")
     print(f"Current dynamic CMB floor: {ouro.current_cmb:.4f}")
     print(f"Real-world age: {ouro.clock.get_age():.2f} seconds")
+
+    # Long-tick cosmic demo (hot uniform + tiny fluctuations)
+    print("\nLong-tick cosmic evolution demo...")
+    cosmic_grid = np.random.uniform(0.8, 1.2, (32, 32))  # Hot uniform proxy
+    cosmic_grid += 0.05 * np.sin(np.linspace(0, 10*np.pi, cosmic_grid.size)).reshape(32, 32)  # Tiny fib-phased fluctuations
+
+    pers_curve = []
+    cmb_curve = []
+    hazard_curve = []
+    ticks = []
+    for i in range(200):
+        if i % 20 == 0:  # Periodic processing to trigger resonance
+            result = ouro.chain().wave(5).physical(3).consensus(2).run(cosmic_grid)
+            cosmic_grid = result["final_grid"]
+            pers = result["history"][-1]["details"]["consensus_pers"]
+            hazard = result["history"][-1]["details"]["pass_details"]["data"]["pers_curve"][-1]  # Example hazard proxy from data pass
+        ouro.chain().tick(10).run(cosmic_grid)  # Pure time flow + processing
+        pers_curve.append(pers if 'pers' in locals() else pers_curve[-1] if pers_curve else 0.0)
+        cmb_curve.append(ouro.current_cmb)
+        hazard_curve.append(hazard if 'hazard' in locals() else hazard_curve[-1] if hazard_curve else 0.0)
+        ticks.append(ouro.clock.current_tick)
+
+    plt.figure(figsize=(15, 5))
+    plt.subplot(1, 3, 1)
+    plt.plot(ticks, pers_curve)
+    plt.title("Persistence (Matter Lock) Over Ticks")
+    plt.ylabel("Persistence")
+    plt.xlabel("Manifold Ticks")
+
+    plt.subplot(1, 3, 2)
+    plt.plot(ticks, cmb_curve)
+    plt.title("Dynamic CMB Cooling")
+    plt.ylabel("CMB Proxy")
+    plt.xlabel("Manifold Ticks")
+
+    plt.subplot(1, 3, 3)
+    plt.plot(ticks, hazard_curve)
+    plt.title("Hazard (Decoherence) Over Ticks")
+    plt.ylabel("Hazard")
+    plt.xlabel("Manifold Ticks")
+
+    plt.tight_layout()
+    plt.show()
+
+    print(f"Cosmic demo complete — final persistence: {pers_curve[-1]:.4f}, final CMB: {cmb_curve[-1]:.4f}, final hazard: {hazard_curve[-1]:.4f}")
