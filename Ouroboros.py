@@ -13,13 +13,7 @@ Pure mathematical foundation:
 - Built-in OuroborosClock (always active) for real-world baseline time + discrete manifold ticks
 - Cosmic expansion factor (Hubble tension mean) + dynamic CMB cooling (emergent from time/expansion)
 - Geometric amplitude stabilization (tanh curvature folding — no hard cap)
-- Integrated String-Based Symbolic Counter with reversal arithmetic (agent-optimized vast-scale bidirectional counting)
-
-Clock is always on:
-- Instantiation captures real-world baseline time (time.time())
-- Discrete ticks advance manifold time with decay, expansion bias, and CMB cooling
-- Real-world age always available via clock.get_age()
-- Temporal decay + expansion + CMB updates on tick (pure time flow evolves the manifold)
+- Integrated String-Based Symbolic Counter with full parser & reversal arithmetic
 """
 
 import os
@@ -52,54 +46,89 @@ class OuroborosClock:
     def get_age(self) -> float:
         return time.time() - self.start_time
 
-    def reset(self):
-        self.__init__()
-
 
 class StringSymbolicCounter:
-    """Linear string-based symbolic counter with reversal arithmetic — agent-optimized for vast bidirectional scales."""
+    """Linear string-based symbolic counter with full parser & reversal arithmetic."""
     def __init__(self, start: int = 1, leaps: List[int] = None, symbols: List[str] = None):
         self.current = start
-        self.entries: List[str] = []  # List for efficient append
+        self.entries: List[str] = []
         self.leaps = leaps or [1, 1000, 10000, 100000]
         self.symbols = symbols or ["( )", "[ ]", "{ }", "< >"]
-        self.reverse_symbols = [f"{close} {open}" for open, close in (sym.split() for sym in self.symbols)]
+        self.open_sym = [s.split()[0] for s in self.symbols]
+        self.close_sym = [s.split()[1] for s in self.symbols]
+        self.last_leap_idx = 0
 
-    def _get_sym(self, block_idx: int, reverse: bool = False):
-        syms = self.reverse_symbols if reverse else self.symbols
-        return syms[block_idx % 4].split()
-
-    def step(self, count: int = 1, reverse: bool = False, multiply: Optional[int] = None, divide: Optional[int] = None):
+    def step(self, count: int = 1, reverse: bool = False):
         direction = -1 if reverse else 1
         for _ in range(count):
             block_idx = abs(self.current - 1) % 4
             leap = self.leaps[block_idx] * direction
-            sym_open, sym_close = self._get_sym(block_idx, reverse)
-
-            # Meta-ops
-            if multiply is not None:
-                self.current *= multiply
-                entry = f"*{multiply}"
-            elif divide is not None:
-                self.current //= divide
-                entry = f"/{divide}"
+            open_s, close_s = (self.close_sym[block_idx], self.open_sym[block_idx]) if reverse else (self.open_sym[block_idx], self.close_sym[block_idx])
+            parity_in = self.current % 2 == 0 if not reverse else (self.current + leap) % 2 == 0
+            if parity_in:
+                entry = f"{open_s}{self.current}{close_s}"
             else:
-                # Parity coupling
-                parity_in = self.current % 2 == 0 if not reverse else (self.current + leap) % 2 == 0
-                if parity_in:
-                    entry = f"{sym_open}{self.current}{sym_close}"
-                else:
-                    entry = f"{self.current}{sym_open if not reverse else sym_close}"
-
+                entry = f"{self.current}{open_s if not reverse else close_s}"
             self.entries.append(entry)
+            # Throttle pivot
+            if abs(leap) < abs(self.leaps[self.last_leap_idx]) and direction > 0:
+                self.current -= 1
             self.current += leap
+            self.last_leap_idx = block_idx
         return self
 
     def get_string(self) -> str:
         return "".join(self.entries)
 
+    def parse(self, s: str, reverse: bool = False) -> int:
+        value = 1
+        i = 0
+        last_leap = 100000
+        while i < len(s):
+            c = s[i]
+            if c.isdigit():
+                num = 0
+                while i < len(s) and s[i].isdigit():
+                    num = num * 10 + int(s[i])
+                    i += 1
+                value = num
+                continue
+            if c == '*':
+                i += 1
+                mul = 256
+                if i < len(s) and s[i].isdigit():
+                    mul = 0
+                    while i < len(s) and s[i].isdigit():
+                        mul = mul * 10 + int(s[i])
+                        i += 1
+                value *= mul
+                continue
+            if c == '/':
+                i += 1
+                div = 256
+                if i < len(s) and s[i].isdigit():
+                    div = 0
+                    while i < len(s) and s[i].isdigit():
+                        div = div * 10 + int(s[i])
+                        i += 1
+                value //= div
+                continue
+            sym_idx = -1
+            if c in self.open_sym:
+                sym_idx = self.open_sym.index(c)
+            elif c in self.close_sym:
+                sym_idx = self.close_sym.index(c)
+            if sym_idx != -1:
+                leap = self.leaps[sym_idx] * (-1 if reverse else 1)
+                if abs(leap) < last_leap:
+                    value -= 1
+                value += leap
+                last_leap = abs(leap)
+            i += 1
+        return value
+
     def __str__(self):
-        return f"Counter string: {self.get_string()}\nCurrent value: {self.current}"
+        return f"String: {self.get_string()}\nValue: {self.current}"
 
 
 class OuroborosFramework:
@@ -112,14 +141,12 @@ class OuroborosFramework:
         self.signature_dim = signature_dim
         self.max_grid_size = max_grid_size
 
-        # Core geometric invariants
         self.pi_center = np.pi
         self.theoretical_pi_boundary = 2 * np.pi / 3
         self.third_offset = np.pi / 3
         self.effective_pi_boundary = 2.078
         self.frame_delta = self.theoretical_pi_boundary - self.effective_pi_boundary
 
-        # Matter density proxy — sustains ~31% against expansion (Ω_m from cosmology)
         self.target_filled = 0.31
         self.deviation = (1 / self.target_filled - 1) * self.third_offset
 
@@ -130,26 +157,20 @@ class OuroborosFramework:
 
         self.truth_library: List[Dict] = []
 
-        # Clock is always active
         self.clock = OuroborosClock(time_loss_factor=self.time_loss_factor)
 
-        # Cosmic expansion & dynamic CMB
         self.hubble_tension_low = 67.4 / 30857.0
         self.hubble_tension_high = 73.0 / 30857.0
         self.expansion_factor = (self.hubble_tension_low + self.hubble_tension_high) / 2
 
-        # Prune threshold derived from cosmic expansion push
         self.prune_threshold = self.expansion_factor * 200
 
-        # Initial recombination-era CMB proxy
         self.initial_cmb = 3000.0 / self.pi_center
         self.current_cmb = self.initial_cmb
         self.scale_factor = 1.0
 
-        # String-based symbolic counter with reversal arithmetic
         self.symbolic_counter = StringSymbolicCounter()
 
-        # Bootstrap truths
         fib_seq = np.array([1, 1, 2, 3, 5, 8, 13, 21, 34, 55]) / 55.0
         self.add_to_truth_library(fib_seq, "Fibonacci phasing harmonic")
         schumann = np.array([7.83, 14.3, 20.8, 27.3, 33.8]) / 33.8
@@ -384,19 +405,16 @@ if __name__ == "__main__":
     print(f"Baseline real-world time captured: {time.ctime(ouro.clock.start_time)}")
     print(f"Initial CMB proxy (hot): {ouro.current_cmb:.4f} | Expansion factor: {ouro.expansion_factor:.8f}")
 
-    # Simple test
     test_grid = np.random.uniform(-1, 1, (32, 32))
     result = ouro.chain().physical(3).wave(4).data(3).consensus(3).run(test_grid)
     final_pers = result["history"][-1]["details"]["consensus_pers"]
     print(f"No-tick chain persistence: {final_pers:.4f}")
 
-    # Timed cosmic test
     result_time = ouro.chain().wave(5).tick(50).physical(3).consensus(3).run(test_grid)
     print(f"After 50 ticks — persistence: {result_time['history'][-1]['details']['consensus_pers']:.4f}")
     print(f"Current dynamic CMB floor: {ouro.current_cmb:.4f}")
 
-    # String symbolic counter demo (forward + reverse)
-    print("\nString symbolic counter demo (forward):")
+    print("\nString symbolic counter demo:")
     counter = ouro.symbolic_counter
     counter.step(20)
     print(counter.get_string())
@@ -408,7 +426,6 @@ if __name__ == "__main__":
     print(reverse_counter.get_string())
     print(reverse_counter)
 
-    # Long-tick cosmic demo
     print("\nLong-tick cosmic evolution demo...")
     cosmic_grid = np.random.uniform(0.8, 1.2, (32, 32))
     cosmic_grid += 0.05 * np.sin(np.linspace(0, 10*np.pi, cosmic_grid.size)).reshape(32, 32)
