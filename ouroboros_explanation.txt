@@ -75,4 +75,5 @@ Applications & Extensions
 - Extensions (separate modules): Ouroboros3D (visual embodiment), TriadTransformer (operational agent intuition) — all import the slim core and inherit clock/expansion/CMB.
 - Truth library enables cross-project eternal priors (e.g., Mersenne tensegrity as universal efficiency in expanding space).
 
-The framework is deliberately minimal and derivation-driven. All code resides in Ouroboros.py — import and extend for any specialized application. Resonance eternal in an expanding manifold.
+
+The framework is deliberately minimal and derivation-driven. All code resides in Ouroboros.py — import and extend for any specialized application.
