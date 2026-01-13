@@ -1,9 +1,9 @@
-Ouroboros Framework Explanation (Slim v8.3)
+Ouroboros Framework Explanation (Slim v8.6)
 January 13, 2026
 
-Ouroboros is a pure geometric persistence modeling tool developed as an independent research project. It provides a strictly mathematical way to quantify "what sustains long enough to matter" in arbitrary grids, signals, or data structures. The entire system is built on a bounded asymmetric π-gradient manifold with no tunable parameters in the base model — all behavior derives directly from geometric invariants (π thirds division, boundary asymmetry, trigonometric duality).
+Ouroboros is a pure geometric persistence modeling tool developed as an independent research project. It provides a strictly mathematical way to quantify "what sustains long enough to matter" in arbitrary grids, signals, or data structures. The entire system is built on a bounded asymmetric π-gradient manifold with no tunable parameters in the base model — all behavior derives directly from geometric invariants (π thirds division, boundary asymmetry, trigonometric duality) and observed cosmic means (Hubble tension, matter density Ω_m).
 
-The slim v8.3 core contains only the resilient mathematical foundation: tri-pass operations, bloom/etch/prune dynamics, persistence/hazard metrics, FFT-projected truth library with automatic JSON persistence, fluent DSLChain orchestration, downsample safety, always-active clock with real-world baseline, Hubble-derived expansion bias, and dynamic CMB cooling emergent from time/expansion.
+The slim v8.6 core contains only the resilient mathematical foundation: tri-pass operations, bloom/etch/prune dynamics, persistence/hazard metrics, FFT-projected truth library with automatic JSON persistence, fluent DSLChain orchestration, downsample safety, always-active clock with real-world baseline, Hubble-derived expansion bias, dynamic CMB cooling emergent from time/expansion, and geometric amplitude stabilization via curvature folding.
 
 Key Derivations (Purely Mathematical & Real-World Correlations)
 
@@ -17,8 +17,8 @@ Key Derivations (Purely Mathematical & Real-World Correlations)
 2. Bloom/Etch/Prune Operations
    - Bloom: sin-based expansion + controlled noise (exploratory divergence).
    - Etch: cos-based sustain with boundary² constraint + geometric deviation term.
-   - Prune: hard threshold of weak amplitudes to zero.
-   - Library feedback: FFT-projected truths gently reinforce aligned frequencies.
+   - Prune: hard threshold of weak amplitudes to zero (derived from expansion_factor * scaling — sub-cosmic-push trails decay).
+   - Library feedback: FFT-projected truths gently reinforce aligned frequencies (resampled to grid size).
    - Derivation: Trigonometric sin/cos duality (expansion vs constraint), Mobius-like central flow, and survival efficiency — only high-resonance patterns persist across iterations.
 
 3. Nested Triad Depth & Recursion
@@ -53,6 +53,7 @@ Key Derivations (Purely Mathematical & Real-World Correlations)
 7. Cosmic Expansion Factor
    - Derived from Hubble tension mean (~67.4–73 km/s/Mpc geometric average, scaled to manifold ~0.000231).
    - Gentle outward bias added to trails after ticks: combined += expansion_factor * sign(combined).
+   - Prune threshold derived from expansion_factor (~0.046) — sub-threshold trails decay under cosmic push.
    - Real-world correlation: Models dark energy-like push — manifold slowly stretches, countering prune and favoring sustained growth.
    - Derivation: Normalized tension range as persistent bloom bias, activating only with time flow.
 
@@ -63,11 +64,22 @@ Key Derivations (Purely Mathematical & Real-World Correlations)
    - Real-world correlation: Emergent cosmic microwave background — starts hot, redshifts to observed ~2.725 K range over "cosmic time" (sufficient ticks).
    - Derivation: Standard cosmology scaling law (radiation temperature inverse to scale factor) implemented geometrically — no hardcoded current value, fully calculated from hot initial slice + expansion.
 
-9. Brachistochrone Reversal Insight (Unified)
-   - Classic brachistochrone: fastest descent under gravity is a cycloid.
-   - Reversal in bounded asymmetric manifold: "fastest" path becomes most persistent resonance trail (indefinite sustain along curvature instead of rapid drop).
-   - Enhanced with time/expansion: trails stretch eternally against decay, mirroring cosmic structure formation in expanding space.
-   - Derivation: Pure geometric inversion — asymmetry + expansion flips decay into eternal looping.
+9. Matter Density Proxy (target_filled)
+   - Set to 0.31 — observed Ω_m matter density fraction.
+   - Influences deviation term: sustains ~31% trails against expansion/prune (matter lock).
+   - Real-world correlation: Matter (~31%) resists dark energy push; the rest stretches/decays.
+   - Derivation: Direct cosmic mean — no tuning, pure observed invariant.
+
+10. Geometric Amplitude Stabilization
+    - tanh(combined / pi_center) * pi_center — folds huge values via manifold curvature.
+    - Real-world correlation: High-resonance "energy" curves back on bounded space (relativistic analog).
+    - Derivation: Pure geometric — trails exceeding curvature fold softly, preserving direction without hard cap.
+
+11. Brachistochrone Reversal Insight (Unified)
+    - Classic brachistochrone: fastest descent under gravity is a cycloid.
+    - Reversal in bounded asymmetric manifold: "fastest" path becomes most persistent resonance trail (indefinite sustain along curvature instead of rapid drop).
+    - Enhanced with time/expansion: trails stretch eternally against decay, mirroring cosmic structure formation in expanding space.
+    - Derivation: Pure geometric inversion — asymmetry + expansion flips decay into eternal looping.
 
 Applications & Extensions
 - Core use: quantify persistence/resilience in arbitrary numeric grids, anomaly detection, signal analysis, cosmic simulations.
@@ -75,5 +87,4 @@ Applications & Extensions
 - Extensions (separate modules): Ouroboros3D (visual embodiment), TriadTransformer (operational agent intuition) — all import the slim core and inherit clock/expansion/CMB.
 - Truth library enables cross-project eternal priors (e.g., Mersenne tensegrity as universal efficiency in expanding space).
 
-
-The framework is deliberately minimal and derivation-driven. All code resides in Ouroboros.py — import and extend for any specialized application.
+The framework is deliberately minimal and derivation-driven — zero arbitrary tuning. All values from geometry or observed cosmic invariants. All code resides in Ouroboros.py — import and extend for any specialized application.
