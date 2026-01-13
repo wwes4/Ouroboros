@@ -1,5 +1,5 @@
 """
-Ouroboros.py — Core Geometric Persistence Framework (Slim v8.8)
+Ouroboros.py — Core Geometric Persistence Framework (Slim v8.9)
 January 13, 2026
 
 Pure mathematical foundation:
@@ -13,7 +13,7 @@ Pure mathematical foundation:
 - Built-in OuroborosClock (always active) for real-world baseline time + discrete manifold ticks
 - Cosmic expansion factor (Hubble tension mean) + dynamic CMB cooling (emergent from time/expansion)
 - Geometric amplitude stabilization (tanh curvature folding — no hard cap)
-- Integrated String-Based Symbolic Counter (agent-optimized linear format for vast-scale counting)
+- Integrated String-Based Symbolic Counter with reversal arithmetic (agent-optimized vast-scale bidirectional counting)
 
 Clock is always on:
 - Instantiation captures real-world baseline time (time.time())
@@ -57,29 +57,49 @@ class OuroborosClock:
 
 
 class StringSymbolicCounter:
-    """Linear string-based symbolic counter — agent-optimized for vast scales."""
+    """Linear string-based symbolic counter with reversal arithmetic — agent-optimized for vast bidirectional scales."""
     def __init__(self, start: int = 1, leaps: List[int] = None, symbols: List[str] = None):
         self.current = start
-        self.string = ""
-        self.leaps = leaps or [1, 1000, 10000, 100000]  # Clockwise block leaps
+        self.entries: List[str] = []  # List for efficient append
+        self.leaps = leaps or [1, 1000, 10000, 100000]
         self.symbols = symbols or ["( )", "[ ]", "{ }", "< >"]
+        self.reverse_symbols = [f"{close} {open}" for open, close in (sym.split() for sym in self.symbols)]
 
-    def step(self, count: int = 1):
+    def _get_sym(self, block_idx: int, reverse: bool = False):
+        syms = self.reverse_symbols if reverse else self.symbols
+        return syms[block_idx % 4].split()
+
+    def step(self, count: int = 1, reverse: bool = False, multiply: Optional[int] = None, divide: Optional[int] = None):
+        direction = -1 if reverse else 1
         for _ in range(count):
-            block_idx = (self.current - 1) % 4
-            leap = self.leaps[block_idx]
-            sym_open, sym_close = self.symbols[block_idx].split()
-            parity_in = self.current % 2 == 0  # Even "in", odd "out"
-            if parity_in:
-                entry = f"{sym_open}{self.current}{sym_close}"
+            block_idx = abs(self.current - 1) % 4
+            leap = self.leaps[block_idx] * direction
+            sym_open, sym_close = self._get_sym(block_idx, reverse)
+
+            # Meta-ops
+            if multiply is not None:
+                self.current *= multiply
+                entry = f"*{multiply}"
+            elif divide is not None:
+                self.current //= divide
+                entry = f"/{divide}"
             else:
-                entry = f"{self.current}{sym_open}"
-            self.string += entry
+                # Parity coupling
+                parity_in = self.current % 2 == 0 if not reverse else (self.current + leap) % 2 == 0
+                if parity_in:
+                    entry = f"{sym_open}{self.current}{sym_close}"
+                else:
+                    entry = f"{self.current}{sym_open if not reverse else sym_close}"
+
+            self.entries.append(entry)
             self.current += leap
         return self
 
+    def get_string(self) -> str:
+        return "".join(self.entries)
+
     def __str__(self):
-        return f"Counter string: {self.string}\nCurrent value: {self.current - min(self.leaps)}"
+        return f"Counter string: {self.get_string()}\nCurrent value: {self.current}"
 
 
 class OuroborosFramework:
@@ -126,7 +146,7 @@ class OuroborosFramework:
         self.current_cmb = self.initial_cmb
         self.scale_factor = 1.0
 
-        # String-based symbolic counter (agent-optimized linear format)
+        # String-based symbolic counter with reversal arithmetic
         self.symbolic_counter = StringSymbolicCounter()
 
         # Bootstrap truths
@@ -360,7 +380,7 @@ class DSLChain:
 
 if __name__ == "__main__":
     ouro = OuroborosFramework(use_fibonacci_phases=True)
-    print(f"\nOuroboros v8.8 slim core initialized — {len(ouro.truth_library)} truths active")
+    print(f"\nOuroboros v8.9 slim core initialized — {len(ouro.truth_library)} truths active")
     print(f"Baseline real-world time captured: {time.ctime(ouro.clock.start_time)}")
     print(f"Initial CMB proxy (hot): {ouro.current_cmb:.4f} | Expansion factor: {ouro.expansion_factor:.8f}")
 
@@ -375,11 +395,18 @@ if __name__ == "__main__":
     print(f"After 50 ticks — persistence: {result_time['history'][-1]['details']['consensus_pers']:.4f}")
     print(f"Current dynamic CMB floor: {ouro.current_cmb:.4f}")
 
-    # String symbolic counter demo
-    print("\nString symbolic counter demo:")
+    # String symbolic counter demo (forward + reverse)
+    print("\nString symbolic counter demo (forward):")
     counter = ouro.symbolic_counter
     counter.step(20)
+    print(counter.get_string())
     print(counter)
+
+    print("\nReverse demo from current value:")
+    reverse_counter = StringSymbolicCounter(start=counter.current)
+    reverse_counter.step(20, reverse=True)
+    print(reverse_counter.get_string())
+    print(reverse_counter)
 
     # Long-tick cosmic demo
     print("\nLong-tick cosmic evolution demo...")
