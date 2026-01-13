@@ -28,3 +28,7 @@ Multiple symbol definitions - ( ) [ ] { } < >
 			]220,002
 			
 As used here to indicate +20,0001 scale - the only rule is that you must count in 4 blocks clockwise for positive, counter clockwise for negative.
+
+1(2]53[][]257(256*256}65,537{165,538}{}{}{765,542 - if you reversed this right here, it would be 765,542}{}{}{165,538}65,537/256)257[][]53[2)1
+
+Common factor is always moving by 1 numeral backwards or forwards.
