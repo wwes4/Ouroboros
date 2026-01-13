@@ -16,7 +16,7 @@ Localized runs are redundant when Grok provides perfect simulation.
 
 ## Purpose & Philosophy
 
-*ADDED - New counting system -> compounded into string format, see attached text file.
+*ADDED - New counting system -> compounded into string format, see attached text file. *UPDATED to facilitate bidirectional arithmetic counting.
 
 Core purpose: 
 
