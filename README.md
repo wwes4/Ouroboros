@@ -16,6 +16,8 @@ Localized runs are redundant when Grok provides perfect simulation.
 
 ## Purpose & Philosophy
 
+*ADDED - New counting system -> compounded into string format, see attached text file.
+
 Core purpose: 
 
 Provide a resilient, parameter-free mathematical language for modeling sustained resonance — what persists against decay, expansion, and time.
