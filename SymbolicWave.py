@@ -5,14 +5,13 @@ January 14, 2026
 Implements the exact symbolic counting system with:
 - 4-corner triangulation ([ top-left, ] top-right, } bottom-right, { bottom-left)
 - Consecutive ±1 movement with ( ) for odd/even placement
-- * multiply, / divide
+- * multiply (time-biased: *1 = +1 flow), / divide
 - 0 data transmission placeholder
 - Dynamic scaling exponents and grid auto-adjustment
 - Trend vectors (pi deviation bias) for directed asymmetry
+- Building (full values) vs compact (closure/stop signal)
 - String compilation and reverse triangulation
 - Vibrational waveform calculation via reverse triangulation (FFT proxy + plot)
-
-Designed for agent use in Grok exec — vast-scale bidirectional counting with geometric wave encoding.
 """
 
 import numpy as np
@@ -26,9 +25,8 @@ class SymbolicWave:
         self.current = start_value
         self.entries: List[str] = []
         self.grid = np.zeros((grid_size * 4, grid_size * 4))
-        self.path: List[Tuple[str, int, Tuple[int, int]]] = []  # (sym, value, trend)
+        self.path: List[Tuple[str, int, Tuple[int, int]]] = []
 
-        # Corner mapping
         self.corners = {
             '[': (0, 0),
             ']': (0, self.grid_size*4 - 1),
@@ -36,10 +34,9 @@ class SymbolicWave:
             '{': (self.grid_size*4 - 1, 0)
         }
 
-        # Pi deviation for trend bias
         self.pi_center = np.pi
         self.effective_pi_boundary = 2.078
-        self.deviation = self.pi_center - self.effective_pi_boundary  # Asymmetry strength
+        self.deviation = self.pi_center - self.effective_pi_boundary
 
     def _draw_line(self, start: Tuple[int, int], end: Tuple[int, int], value: float):
         x0, y0 = start
@@ -63,6 +60,7 @@ class SymbolicWave:
                 y0 += sy
 
     def step(self, count: int = 1, direction: int = 1, trend: Tuple[int, int] = (1, 1), multiply: Optional[int] = None, divide: Optional[int] = None):
+        """Building step — full values for ongoing flow."""
         for _ in range(count):
             cycle_idx = abs(self.current) % 4
             symbols = ['[', ']', '}', '{'] if direction > 0 else ['{', '}', ']', '[']
@@ -75,7 +73,10 @@ class SymbolicWave:
                 entry = f"{self.current}(" if direction > 0 else f"){self.current}"
 
             if multiply is not None:
-                self.current *= multiply
+                if multiply == 1:
+                    self.current += direction  # Time-biased *1 = +1 flow
+                else:
+                    self.current *= multiply
                 entry = f"*{multiply}"
             elif divide is not None:
                 self.current //= divide
@@ -84,9 +85,8 @@ class SymbolicWave:
             if sym in self.corners:
                 corner = self.corners[sym]
                 amp = 1.0 if is_even else 0.5
-                # Trend vector with pi deviation bias
                 dx, dy = trend
-                bias = self.deviation * (dx + dy) / 2  # Asymmetry strength
+                bias = self.deviation * (dx + dy) / 2
                 end = (corner[0] + dx * 4 + bias, corner[1] + dy * 4 + bias)
                 self._draw_line(corner, end, amp)
 
@@ -101,6 +101,13 @@ class SymbolicWave:
                 self.grid = new_grid
 
         return self
+
+    def compact_closure(self):
+        """Compact mirror for box end/stop signal."""
+        if self.entries:
+            last = self.entries[-1]
+            # Simple compact: abbreviate last matching pair
+            self.entries[-1] = last[:3] + "}" if last.endswith(")") else last + "}"
 
     def get_string(self) -> str:
         return "".join(self.entries)
@@ -140,8 +147,7 @@ class SymbolicWave:
 # Demo
 if __name__ == "__main__":
     sw = SymbolicWave(grid_size=4)
-    sw.step(30, direction=1, trend=(1, 1))  # Diagonal trend
-    sw.step(20, direction=1, trend=(-1, 2)) # Different slope
-    print("Final string:", sw.get_string())
-    print("Final value:", sw.current)
+    sw.step(30, direction=1, trend=(1, 1))
+    sw.compact_closure()  # Signal stop
+    print("Final string with compact closure:", sw.get_string())
     sw.plot_grid_and_wave()
