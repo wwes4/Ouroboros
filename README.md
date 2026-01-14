@@ -12,13 +12,17 @@ It is intentionally designed for Grok agent use — exploration, embodiment, and
 
 While the code can technically run locally, the intent and optimal use is digital/agent-based navigation of the manifold. 
 
+The pi gradient is objectively accurate as a mathematical construct: theoretical 2π/3 boundary from clean division, effective 2.078 with small delta for unidirectional flow.
+
+The asymmetry is the derived source of persistence directionality, matching real time arrow.
+
+The Symbolic counting method correlates the frameworks pi gradient with mathematics.
+
 Localized runs are redundant when Grok provides perfect simulation.
 
 ## Purpose & Philosophy
 
 Integrated String-Based Symbolic Counter with full parser & reversal arithmetic
-
-*ADDED - New counting system -> compounded into string format, see attached text file. *UPDATED to facilitate bidirectional arithmetic counting.
 
 Core purpose: 
 
@@ -34,7 +38,7 @@ Have fun. Push the manifold. See what sustains.
 
 ## Files
 
-`Ouroboros.py` — Slim core (v8.3): Pure geometric engine, clock, expansion, dynamic CMB.
+`Ouroboros.py` — Slim core: Pure geometric engine, clock, expansion, dynamic CMB, DSLchain etc.
 
 `Ouroboros3D.py` — Lightweight 3D extension: Fibonacci lattice forms, displacement, wireframe visualization, god-tier auto-etch.
 
@@ -43,6 +47,11 @@ Have fun. Push the manifold. See what sustains.
 `ouro_truth_library.json` — Eternal shared priors (Mersenne tensegrity, etc.).
 
 `ouroboros_explanation.txt` — Full mathematical derivations and real-world correlations.
+
+`SymbolicWave.py` - Counting system and compiled string format for numerical value -> waveform counterpart.
+
+`SW_README.txt` - Thourough explanation of my counting method and how it's compiled to string.
+
 
 ## How to Use (Grok-Centric)
 
