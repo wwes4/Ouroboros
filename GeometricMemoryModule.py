@@ -3,15 +3,16 @@ import time
 import hashlib
 from typing import Optional
 
-# Lightweight Geometric Memory Module v1.0 - Laptop Efficient (512 points, <50ms ops)
+# Lightweight Geometric Memory Module v1.1 - Cleaned & Presentable
 # Standalone - no full Ouroboros dependency for speed, but extendable
 # Embed via seeded displacements for reversibility (deterministic from data + phrase)
 # Security via timestamp + phrase + hash lock - unidirectional "stretch" via seed
+# All personal data removed - neutral demo included for immediate testing
 
 PHI = (1 + np.sqrt(5)) / 2
 
 class GeometricMemoryModule:
-    def __init__(self, lattice_points: int = 512, secret_phrase: str = "DruidIRL resonance eternal"):
+    def __init__(self, lattice_points: int = 512, secret_phrase: str = "resonance eternal"):
         self.lattice_points = lattice_points
         self.secret_phrase = secret_phrase
         self.phrase_key = secret_phrase.replace(' ', '-')
@@ -49,17 +50,16 @@ class GeometricMemoryModule:
         if not self.initial_tick or not self.etched_hash:
             return "Not encoded yet"
         timestamp_str = time.strftime('%Y-%m-%d_%H:%M:%S', time.localtime(self.initial_tick))
-        return f"unlock_{timestamp_str}_{self.phrase_key}_{self.etched_hash[:40]}"
+        return f"unlock_{timestamp_str}_{self.phrase_key}_{self.etched_hash[:32]}"
 
     def access(self, key: str) -> str:
-        if not key.startswith("unlock_"):
-            return "Invalid format - pruned eternally"
         try:
-            # Robust split: unlock | timestamp | phrase_key | hash
-            parts = key.split('_', 4)
-            if len(parts) != 5:
+            parts = key.split('_')
+            if len(parts) < 5 or parts[0] != "unlock":
                 return "Part count mismatch - turbulence prune"
-            _, timestamp_str, phrase_part, hash_part = parts[0], parts[1] + '_' + parts[2], parts[3], parts[4]
+            timestamp_str = parts[1] + '_' + parts[2]
+            phrase_part = parts[3]
+            hash_part = '_'.join(parts[4:]) if len(parts) > 5 else parts[4]
             phrase = phrase_part.replace('-', ' ')
             key_time = time.strptime(timestamp_str, '%Y-%m-%d_%H:%M:%S')
             key_stamp = int(time.mktime(key_time))
@@ -75,24 +75,24 @@ class GeometricMemoryModule:
         
         return self.data.decode('utf-8') if self.data else "No data etched"
 
-# === OUR PERSONAL MODULE INSTANCE ETCHED BELOW ===
-# Run this to recreate our bank (deterministic from data + phrase)
+# === NEUTRAL DEMO INSTANCE - SAFE TO RUN & TEST ===
+# Uses placeholder data only - fully deterministic and reversible
 
-personal_data = """DruidIRL personal triad memory bank v1.0
-Birth: 13:34 (1:34 PM) June 11 1990, Modesto CA
-Delivered by Fraidon "Fred" Adams M.D. (Tehran University 1968 grad)
-Overdrive etch from nuchal cord strangulation threat + vacuum extractor ("plunger") intervention + genital deformity variance
-Asymmetry conduit: Persian ancient geometry origin → Central Valley concentric rings migration
-Mersenne triad core exponents: 6972593 → 13466917 → 20996011 (widening tensegrity bands)
-Manifest traits: Hazel golden-shift eyes, 1-1.5°F cooler core, huge lungs (3min breath hold casual), hyper-sensitive CNS (vagal overdrive, rapid adaptation), automatic full-body internal visualization/control, conscious heart reinforcement via breathing, rapid substance clearance, zero age decline signs at 35+
-Ouroboros manifold god-tier persistent sustain - resonance eternal."""
+demo_data = """Geometric Memory Module Demo v1.1
+This is a neutral test bank.
+No personal information is stored.
+Lattice: Fibonacci-golden spiral on unit sphere.
+Purpose: Demonstrate deterministic embedding and secure access.
+Resonance eternal."""
 
-module = GeometricMemoryModule(secret_phrase="DruidIRL resonance eternal")
-module.encode(personal_data)
-PERSONAL_KEY = module.generate_key()
+module = GeometricMemoryModule(secret_phrase="resonance eternal")
+module.encode(demo_data)
+DEMO_KEY = module.generate_key()
 
-print("Module ready - personal bank etched.")
-print("YOUR EXACT KEY (copy this precisely for access/unlock):")
-print(PERSONAL_KEY)
+print("Module ready - neutral demo bank etched.")
+print("YOUR EXACT DEMO KEY (copy this precisely for access/unlock):")
+print(DEMO_KEY)
 print("\nTest access (should succeed):")
-print(module.access(PERSONAL_KEY)[:300] + "...")
+print(module.access(DEMO_KEY)[:300] + "...")
+print("\nLattice shape after embed:", module.lattice.shape)
+print("Etched hash prefix:", module.etched_hash[:32])
