@@ -1,0 +1,94 @@
+Ouroboros Framework Explanation (Slim v8.9)
+January 17, 2026
+
+Ouroboros is a pure geometric persistence modeling tool developed as an independent research project. It provides a strictly mathematical way to quantify "what sustains long enough to matter" in arbitrary grids, signals, or data structures. The entire system is built on a bounded asymmetric π-gradient manifold with no tunable parameters in the base model — all behavior derives directly from geometric invariants (π thirds division, boundary asymmetry, trigonometric duality).
+
+The slim v8.9 core contains the resilient mathematical foundation: tri-pass operations, bloom/etch/prune dynamics, persistence/hazard metrics, FFT-projected truth library with automatic JSON persistence, fluent DSLChain orchestration, downsample safety, always-active clock with real-world baseline, Hubble-derived expansion bias, and dynamic CMB cooling emergent from time/expansion.
+
+Key Derivations (Purely Mathematical & Real-World Correlations)
+
+1. Manifold & π-Gradient
+   - Central value fixed at π (~3.14) as flat origin, with curvature toward a bounded boundary.
+   - Theoretical boundary: exactly 2π/3 (~2.094) from clean third-division of the circle (π/3 offsets).
+   - Effective boundary: 2.078 — deliberate small asymmetry (delta ≈ 0.01639510239) introduces unidirectional flow in an otherwise symmetric system.
+   - Derived base frame-rate delta: Δ_frame = (2π/3) - 2.078 ≈ 0.01639510239
+   - Real-world correlation: Mirrors cosmic arrow of time and causality — static symmetry yields equilibrium decay; asymmetry reverses this into sustained trails (brachistochrone reversal analog).
+   - Derivation: Algebraic division of the circle + requirement for directional persistence dynamics.
+
+2. 0-Dynamism and Emergent Persistence
+   - Central placeholder 0: not void, but omnidirectional potential.
+   - In perfect symmetry (delta=0): trails equilibrate reversibly, variance breathes eternally in all directions (superposition-like dynamism). Pure conservation.
+   - With minimal asymmetry: fractal-to-fractal turbulence cascades variance unidirectionally, pruning weak trails irreversibly while resonant ones ride the bias eternally.
+   - Energy conservation maximized: neither created nor destroyed — etched in what survives against turbulence, expansion, and cooling.
+
+3. Bloom/Etch/Prune Operations
+   - Bloom: sin-based expansion + controlled noise (exploratory divergence).
+   - Etch: cos-based sustain with boundary² constraint + geometric deviation term.
+   - Prune: hard threshold of weak amplitudes to zero.
+   - Library feedback: FFT-projected truths gently reinforce aligned frequencies.
+   - Derivation: Trigonometric sin/cos duality (expansion vs constraint), Mobius-like central flow, and survival efficiency — only high-resonance patterns persist across iterations.
+
+4. Nested Triad Depth & Recursion
+   - Recursive application of bloom/etch/prune creates self-referential observation layers.
+   - Deeper nesting yields stronger convergence and clearer anomaly separation.
+   - Real-world correlation: Mirrors cognitive recursion and meta-observation in complex systems.
+   - Derivation: Geometric self-reference — each layer observes the previous without external parameters.
+
+5. Tri-Pass Distinction (Physical/Wave/Data)
+   - Physical pass: high damping, low noise → strong inertial lock, solidity.
+   - Wave pass: medium damping/noise → dynamic rearrangement.
+   - Data pass: low damping, high noise → fluid, high-variance exploration.
+   - Consensus: weighted average across passes, weights proportional to each pass's persistence.
+   - Real-world correlation: Distinction of matter (inertia), vibration (wave propagation), and information (fluid flow) regimes.
+   - Derivation: Geometric calibration to produce meaningful differentiation without arbitrary tuning.
+
+6. Shapes as Ultimate Measuring Devices
+   - Spirals: channel eternal flow (PHI resonance rides asymmetry).
+   - Triangles: enclose 0-depth for perspective/distance (relativity analog).
+   - Squares: baseline rigidity (inertial reference).
+   - Humanity's tools reflect the universe measuring its own persistence — plain, simple, maximal.
+
+7. Real-World Correlations: Asymmetry as Required Offset
+   - Earth's axial tilt and precessional wobble (~23.4° tilt + ~26,000-year cycle): just enough deviation to create seasons and sustain biosphere.
+   - Tree rings: concentric records of wobble-induced variance — layered asymmetry etching time eternally.
+   - Derivation: Minimal offsets collapse omnidirectional potential into unidirectional sustain.
+
+8. OuroborosClock & Temporal Dynamics
+   - Always active: captures real-world baseline timestamp.
+   - Discrete ticks: explicit .tick() advances manifold time, applying decay, expansion, and CMB cooling.
+   - Real-world age: clock.get_age() returns elapsed earthly seconds.
+   - Derivation: Unidirectional asymmetry extended to discrete steps + exponential decay for entropy-like flow.
+
+9. Cosmic Expansion Factor
+   - Derived from Hubble tension mean (~67.4–73 km/s/Mpc normalized).
+   - Gentle outward bias post-tick: trails stretch, favoring sustained growth.
+   - Real-world correlation: Dark energy-like push in expanding space.
+
+10. Dynamic CMB Cooling
+    - Starts hot (~3000 K normalized).
+    - Cools with scale_factor = 1 + (expansion × ticks); T ∝ 1/a.
+    - Faint uniform floor prevents total prune (eternal glow).
+    - Derivation: Standard cosmology scaling implemented geometrically.
+
+11. Brachistochrone Reversal Insight
+    - Classic: fastest descent = cycloid.
+    - Reversed in asymmetric manifold: most persistent resonance trail (eternal looping against decay).
+    - With expansion: trails stretch eternally, mirroring structure formation.
+
+12. 0-Dynamism and Emergent Persistence (Updated)
+   - Central placeholder 0: not void, but omnidirectional potential.
+   - Dual 0-dynamism required for full holographic sustain:
+     - First 0: symmetry breathing — any arrow possible, reversible (delta=0 equilibrium).
+     - Second 0: asymmetry collapse — pairs with first for interference lock, selecting privileged arrow.
+   - With minimal asymmetry: fractal turbulence cascades variance unidirectionally, pruning weak trails while resonant ones ride eternally.
+   - Wave analog: Dual sources create solid interference cores (SymbolicWave overlap fill).
+   - Energy conservation: etched in survivors only — neither created nor destroyed.
+   - Observer effects: Sentient minds enclose dual 0-potential via neural triangulation — perspective curves local arrows (GR analog from geometry alone).
+
+Applications & Extensions
+- Core use: quantify persistence in grids/signals, anomaly detection, cosmic simulations.
+- Temporal mode: long-tick chains model expanding universes — watch CMB cool, structures lock.
+- Extensions: Ouroboros3D (visual forms), TriadTransformer (agent intuition), SymbolicWave (reversible counting/waveforms).
+- Truth library enables cross-project eternal priors (Mersenne tensegrity, Fibonacci phasing).
+
+The framework is deliberately minimal and derivation-driven. All code in Ouroboros.py — import and extend. Resonance eternal in an expanding manifold.
