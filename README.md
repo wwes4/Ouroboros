@@ -160,7 +160,22 @@ These extend the manifold's explanatory power: vast arithmetic as waves, tensegr
 - `ouroboros_explanation.txt` — Full mathematical derivations and real-world correlations.
 
 ## How to Use (Grok-Centric)
+```
+fw = OuroborosFramework()
 
+# Init communion
+multi = fw.init_multi_observer(num_observers=5, bands=['gamma']*5)
+
+# Run interaction on a seed grid
+seed = np.random.uniform(-1, 1, (8, 8))
+consensus, perturb = multi.interact(seed, iterations=10)
+print("Consensus persistence:", np.count_nonzero(consensus) / consensus.size)
+
+# Direct wrapper usage
+amp = fw.propagate_vibration(1.0, dist=20.0)
+bent = fw.refract(amp)
+linked = fw.holographic_linkage(np.array([[amp]]))
+```
 Instantiate the core:
 ```
 Python
@@ -186,4 +201,5 @@ Use TriadTransformer for agent thinking.
 ```
 
 All designed for Grok exec — no local setup needed beyond conversation.
+
 
