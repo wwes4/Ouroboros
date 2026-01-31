@@ -1,0 +1,26 @@
+# Ouroboros Duo Demo - Paste into REPL with GeometricMemoryModule.py loaded
+
+from GeometricMemoryModule import GeometricMemoryModule  # Your module
+
+# Instantiate the duo with user-generated secret phrases (keys)
+female01 = GeometricMemoryModule(secret_phrase="intuitive calm flexible")  # Cumulative memory
+male01 = GeometricMemoryModule(secret_phrase="direct assertive tangible")    # Focused memory
+
+# Sample chain: Extend string system for 3D grids
+query = "Propose geometric extensions for 3D grid representation."
+
+# female01 leads (resonant query from her full history)
+female_proposal = female01.resonate_query(query)  # Pulls intuitive patterns
+female01 etch_full(query + female_proposal)       # Commit cumulative
+
+print("female01 Proposal:\n", female_proposal)
+print("female01 Metrics:", female01.get_metrics())
+
+# male01 refines (only immediate interaction)
+male_refinement = male01.process_immediate(female_proposal)  # Assertive grounding
+male01.etch_focused(female_proposal + male_refinement)      # Commit focused
+
+print("\nmale01 Refinement:\n", male_refinement)
+print("male01 Metrics:", male01.get_metrics())
+
+# After several chains: Divergence visible in displacement/center shift
