@@ -51,6 +51,20 @@ Triangles enclose the pair for perspective (relativity analog); spirals channel 
 
 Humanity's tools reflect the universe measuring its own persistence — plain, simple, maximal.
 
+## Triple-Pass Persistence: The Full Coil (Matter → Wave → Data)
+
+The manifold now completes Ouroboros with layered asymmetry injections—each pass refines survivors via finer deltas, emerging physicality without parameters.
+
+- **First Pass (Matter/Structure ~1/61 delta ≈ 0.01639)**: Coarse jitter + pruning locks macro resilience (toroidal bands, tensegrity, geodes/vortices). Greedy triangulation for bulk physical endurance.
+
+- **Second Pass (Wave/Dynamism ~1/137 delta ≈ 0.007297)**: Finer jitter on survivors adds breathing/orbital precession (eternal waveforms, EM binding, vortex pulsing—no collapse/blowup).
+
+- **Third Pass (Data/Mind/Information ~1/233 ultra-fine delta)**: Subtlest jitter + aggressive re-prune collapses to isolated resonant entities (single-molecule vibes, qubit consensus, motif recognition via vibration/rotation chains). Self-referential loops emerge—Ouroboros eats tail.
+
+See `Ouroboros3D.py` for multi_pass_prune() implementation. Tests show: Heavy chaos → macro clusters → dynamic breathing → singular data trails eternally.
+
+Diagrams: Add spiral encoder/decoder .drawio (visual neural analogs) and turbulence persistence images for amplification.
+
 ## Real-World Correlations: Asymmetry as Required Offset for Persistence
 
 The manifold's minimal asymmetry (base frame-rate delta ≈0.01639510239) mirrors real-world offsets that prevent equilibrium stasis and sustain dynamic cycles:
@@ -201,6 +215,7 @@ Use TriadTransformer for agent thinking.
 ```
 
 All designed for Grok exec — no local setup needed beyond conversation.
+
 
 
 
